@@ -1,0 +1,52 @@
+---
+/**
+ * Botão de CTA do padrão B2.
+ * - Sempre <button type="button"> com `btn-slave-whats`: o plugin de atendimento do WordPress captura o clique.
+ * - `cta` é obrigatório e vira `data-cta` para rastreamento (convenção: `{secao}-{elemento}`).
+ * - Cantos retos, ícone arrow-right à direita por padrão.
+ */
+import Icon from './Icon.astro'
+import type { IconName } from '../data/icons'
+
+interface Props {
+  /** Identificador de rastreamento, ex.: "hero-primary", "linhas-esferas". */
+  cta: string
+  variant?: 'primary' | 'outline-light' | 'outline-dark'
+  type?: 'button' | 'submit'
+  icon?: boolean
+  iconName?: IconName
+  iconPosition?: 'left' | 'right'
+  class?: string
+}
+
+const {
+  cta,
+  variant = 'primary',
+  type = 'button',
+  icon = true,
+  iconName = 'arrow-right',
+  iconPosition = 'right',
+  class: className = '',
+} = Astro.props
+
+const base =
+  'inline-flex items-center justify-center gap-2.5 px-6 py-3.5 font-sans text-[15px] font-semibold transition-colors duration-200'
+
+const variants = {
+  primary: 'bg-accent-orange text-neutral-light hover:bg-accent-orange-dark',
+  'outline-light': 'border border-neutral-light/35 text-neutral-light hover:bg-neutral-light/10',
+  'outline-dark': 'border border-ink/25 text-ink hover:bg-ink/5',
+}
+---
+
+<button
+  type={type}
+  data-cta={cta}
+  class:list={['btn-slave-whats', base, variants[variant], className]}
+>
+  {icon && iconPosition === 'left' && <Icon name={iconName} class="size-4 shrink-0" />}
+  <span>
+    <slot />
+  </span>
+  {icon && iconPosition === 'right' && <Icon name={iconName} class="size-4 shrink-0" />}
+</button>

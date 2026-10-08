@@ -1,0 +1,42 @@
+{
+  "name": "lp-coair-pecas",
+  "type": "module",
+  "version": "2.7.1",
+  "private": true,
+  "description": "Landing page COAIR — Pecas. Padrão B2 v2.7.1.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "compose": "node scripts/compose.mjs",
+    "check": "astro check",
+    "check:lp": "node scripts/check-lp.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "screens": "node scripts/screens.mjs",
+    "lh": "npx -y @lhci/cli@0.14.0 autorun",
+    "verify": "npm run check:lp && npm run lint && npm run format:check && npm run build"
+  },
+  "dependencies": {
+    "astro": "^7.3.2"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^3.2.1",
+    "prettier": "^3.9.7",
+    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.0"
+  }
+}

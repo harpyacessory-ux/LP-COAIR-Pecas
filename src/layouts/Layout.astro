@@ -1,0 +1,120 @@
+---
+import { getImage } from 'astro:assets'
+import logoImg from '../assets/LOGO.png'
+import '../styles/global.css'
+import {
+  site,
+  title as defaultTitle,
+  description as defaultDescription,
+  whatsapp,
+} from '../data/site'
+import { hero } from '../data/content'
+import WhatsAppFloat from '../components/WhatsAppFloat.astro'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const { title = defaultTitle, description = defaultDescription } = Astro.props
+
+// Preload do LCP: mesmas larguras/formatos que o <Picture> do Hero.
+const heroPreload640 = await getImage({ src: hero.banner.src, width: 640, format: 'webp' })
+const heroPreload1024 = await getImage({ src: hero.banner.src, width: 1024, format: 'webp' })
+const heroPreload1981 = await getImage({ src: hero.banner.src, width: 1981, format: 'webp' })
+const ogLogo = await getImage({ src: logoImg, width: 512, format: 'webp' })
+
+const ogImage = new URL(ogLogo.src, site.url).href
+
+// JSON-LD Organization: nome, URL, logo e endereço vêm de site.ts.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.brand,
+  url: site.url,
+  logo: ogImage,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address,
+    addressCountry: 'BR',
+  },
+}
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="b2-lp-standard" content={site.standardVersion} />
+    <link rel="canonical" href={site.url} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.brand} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:image" content={ogImage} />
+
+    <link
+      rel="preload"
+      as="image"
+      href={heroPreload1981.src}
+      imagesrcset={`${heroPreload640.src} 640w, ${heroPreload1024.src} 1024w, ${heroPreload1981.src} 1981w`}
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-accent-orange focus:px-4 focus:py-2 focus:font-bold focus:text-white"
+    >
+      Pular para o conteúdo
+    </a>
+    <slot />
+    {whatsapp && <WhatsAppFloat number={whatsapp} />}
+
+    <script is:inline>
+      // Parâmetros de depuração, usados pelos scripts de captura. Não fazem nada numa
+      // visita normal — nenhum deles altera o HTML entregue ao visitante.
+      {
+        const params = new URLSearchParams(location.search)
+
+        // ?screens=1 — a captura de página inteira não rola a página, então as imagens
+        // `lazy` abaixo da dobra sairiam como buracos brancos. Com composições longas
+        // isso é a regra, não a exceção.
+        if (params.has('screens')) {
+          for (const img of document.querySelectorAll('img[loading="lazy"]')) img.loading = 'eager'
+        }
+
+        // ?only=<id> — isola uma seção para o catálogo da biblioteca
+        // (`node scripts/previews.mjs` no starter). Esconde o resto da página e tira a
+        // barra fixa do topo, para a captura conter só a seção pedida.
+        const only = params.get('only')
+        if (only) {
+          for (const el of document.querySelectorAll('body > *')) {
+            if (el.tagName !== 'MAIN' && el.tagName !== 'SCRIPT') el.remove()
+          }
+          for (const section of document.querySelectorAll('main > *')) {
+            if (section.id !== only) section.remove()
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

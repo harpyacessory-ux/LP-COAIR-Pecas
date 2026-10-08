@@ -1,0 +1,13 @@
+node_modules
+dist
+.astro
+package-lock.json
+docs/screens
+docs/lighthouse
+
+# gerado por npm run compose
+lp.manifest.json
+
+# documentos trazidos do starter (gerado ou mantido lá, não formatado aqui)
+docs/PROMPT-PADRAO-LP.md
+docs/BIBLIOTECA.md

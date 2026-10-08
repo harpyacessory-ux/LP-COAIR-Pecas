@@ -1,0 +1,72 @@
+# Verifica o padrão, gera a landing page e publica a saída do build na branch `wp-build`.
+# O plugin B2 LP Publisher (WordPress) lê HTML + assets prontos dessa branch;
+# ele não roda build, por isso o index.html precisa ficar na raiz da branch.
+name: Build para WordPress
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Uma build por vez; um push novo cancela a anterior em andamento.
+concurrency:
+  group: wp-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Verificação, build e publicação em wp-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificar padrão da LP (check:lp + lint + prettier)
+        run: |
+          npm run check:lp
+          npm run lint
+          npm run format:check
+
+      - name: Build do Astro
+        run: npm run build
+
+      # Orçamento de performance/acessibilidade/SEO (limites em lighthouserc.json).
+      # Falha o deploy se algum limite não for atingido. Relatórios ficam como artefato.
+      - name: Lighthouse CI
+        run: npm run lh
+
+      - name: Guardar relatórios do Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: docs/lighthouse
+          if-no-files-found: ignore
+
+      - name: Publicar conteúdo de dist/ na raiz da branch wp-build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          cd dist
+          # Repositório órfão só com a saída do build; dist/ estar no .gitignore
+          # do projeto não interfere, pois este git init é independente.
+          git init -b wp-build
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "build: ${GITHUB_REF_NAME}@${GITHUB_SHA::7}" -m "Origem: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:wp-build

@@ -1,0 +1,36 @@
+---
+/**
+ * Botão flutuante de WhatsApp. Renderizado pelo Layout só quando `whatsapp` em site.ts está preenchido.
+ * Único CTA da página com href (abre a conversa direto); ainda leva data-cta para rastreamento.
+ */
+import Icon from './Icon.astro'
+
+interface Props {
+  number: string
+}
+
+const { number } = Astro.props
+const href = `https://wa.me/${number}`
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-cta="float-whatsapp"
+  aria-label="Conversar pelo WhatsApp"
+  class="fixed right-4 bottom-4 z-50 flex size-14 items-center justify-center rounded-full bg-[#25d366] text-neutral-light shadow-[0_14px_30px_-10px_rgba(0,0,0,0.5)] transition-transform duration-200 hover:scale-105 sm:right-6 sm:bottom-6"
+>
+  <Icon name="whatsapp" class="size-7" />
+</a>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none;
+    }
+    a:hover {
+      transform: none;
+    }
+  }
+</style>

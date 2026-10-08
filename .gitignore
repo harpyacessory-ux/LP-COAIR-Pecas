@@ -1,0 +1,37 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+.env.local
+
+# macOS
+.DS_Store
+
+# Vite
+.vite/
+
+# OPENCODE
+.opencode
+# relatórios locais do Lighthouse CI
+docs/lighthouse/
+.lighthouseci/
+
+# material bruto do cliente (proposta, catálogo, prints, mensagens) não vai para o
+# repositório: basta uma LP publicada como repositório público para ele ficar aberto.
+# O que a LP precisa, organizado e com as decisões, fica em docs/BRIEFING.md.
+docs/briefing-cliente/*
+!docs/briefing-cliente/README.md

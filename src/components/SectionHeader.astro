@@ -1,0 +1,66 @@
+---
+/**
+ * Cabeçalho de seção na anatomia do padrão (PROMPT-PADRAO-LP, item 5):
+ * eyebrow → mt-3 → H2 → mt-3 → parágrafo. Com `rule`, entra o traço laranja e o
+ * espaçamento sobe para mt-5, como nos blocos navy e na conversão.
+ *
+ * Toda seção da biblioteca usa este componente em vez de repetir as classes: é o
+ * que mantém a escala tipográfica idêntica entre seções escritas em momentos
+ * diferentes.
+ */
+import Eyebrow from './Eyebrow.astro'
+
+interface Props {
+  eyebrow: string
+  title: string
+  text?: string
+  /** `center` só em galerias simétricas (GUIA-LAYOUT, item 1). */
+  align?: 'left' | 'center'
+  /** Largura do texto: 1 frase → `xl`, 2 frases → `2xl`, centrado → `4xl`. */
+  width?: 'xl' | '2xl' | '4xl'
+  /** `light` = texto sobre navy. */
+  tone?: 'dark' | 'light'
+  /** Traço laranja entre H2 e parágrafo. */
+  rule?: boolean
+  class?: string
+}
+
+const {
+  eyebrow,
+  title,
+  text,
+  align = 'left',
+  width = '2xl',
+  tone = 'dark',
+  rule = false,
+  class: className = '',
+} = Astro.props
+
+const widths = { xl: 'max-w-xl', '2xl': 'max-w-2xl', '4xl': 'max-w-4xl' }
+const alignClass = align === 'center' ? 'mx-auto text-center' : ''
+const titleColor = tone === 'light' ? 'text-neutral-light' : 'text-ink'
+const textColor = tone === 'light' ? 'text-neutral-light/75' : 'text-ink-soft'
+---
+
+<div class:list={[widths[width], alignClass, className]}>
+  <Eyebrow tone={tone === 'light' ? 'light' : 'dark'}>{eyebrow}</Eyebrow>
+
+  <h2
+    class:list={['mt-3 font-display text-3xl leading-tight font-extrabold sm:text-4xl', titleColor]}
+  >
+    {title}
+  </h2>
+
+  {rule && (
+    <span
+      aria-hidden="true"
+      class:list={['mt-5 block h-[3px] w-16 bg-accent-orange', align === 'center' && 'mx-auto']}
+    />
+  )}
+
+  {text && (
+    <p class:list={['font-sans text-[15px] leading-relaxed', rule ? 'mt-5' : 'mt-3', textColor]}>
+      {text}
+    </p>
+  )}
+</div>

@@ -1,0 +1,56 @@
+---
+/**
+ * Página provisória — a composição ainda não foi aplicada.
+ *
+ * Só a estrutura fixa está aqui. As seções do meio entram com:
+ *
+ *   npm run compose -- --list                 ver o acervo da biblioteca
+ *   npm run compose -- <slug> <slug> ...      montar a página
+ *
+ * O compositor sobrescreve este arquivo. O catálogo com o que cada seção faz, o que
+ * ela exige do briefing e quando usá-la está em docs/BIBLIOTECA.md.
+ */
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import Hero from '../components/Hero.astro'
+import QuoteForm from '../components/QuoteForm.astro'
+import Footer from '../components/Footer.astro'
+import { shortcodes } from '../data/site'
+---
+
+<Layout>
+  <Header />
+
+  <main id="main">
+    <Hero>
+      <Fragment slot="shortcode">{shortcodes.chat}</Fragment>
+    </Hero>
+
+    <section
+      id="composicao-pendente"
+      class="bg-neutral-gray-100 py-16"
+      aria-label="Composição pendente"
+    >
+      <div class="mx-auto max-w-page px-6 lg:px-10">
+        <div
+          class="rounded-2xl border-2 border-dashed border-accent-orange/50 bg-neutral-light p-8 text-center"
+        >
+          <h2 class="font-display text-2xl font-extrabold text-ink">Composição pendente</h2>
+          <p class="mx-auto mt-3 max-w-xl font-sans text-[15px] leading-relaxed text-ink-soft">
+            As seções do meio ainda não foram escolhidas. Rode
+            <code class="font-mono text-[13px] text-primary-dark">npm run compose -- --list</code>
+            para ver o acervo e
+            <code class="font-mono text-[13px] text-primary-dark">npm run compose -- &lt;seções&gt;</code>
+            para montar a página. Referência completa em <code class="font-mono text-[13px] text-primary-dark">docs/BIBLIOTECA.md</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <QuoteForm>
+      <Fragment slot="shortcode">{shortcodes.form}</Fragment>
+    </QuoteForm>
+  </main>
+
+  <Footer />
+</Layout>

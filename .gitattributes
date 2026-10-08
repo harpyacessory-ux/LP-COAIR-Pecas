@@ -1,0 +1,22 @@
+# Fim de linha LF em todo o repositório, inclusive no Windows.
+#
+# Não é preferência: o Prettier roda com `endOfLine: lf` (o default), e o
+# `format:check` faz parte do `verify` e do CI. Sem isto, um clone no Windows
+# converteria tudo para CRLF e a LP reprovaria a própria verificação. Também
+# mantém estável a impressão digital que o `compose` grava em `lp.manifest.json`.
+* text=auto eol=lf
+
+# Binários: nunca normalizar.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Gerados: fora do diff por padrão, mas versionados.
+lp.manifest.json linguist-generated=true
+src/pages/index.astro linguist-generated=true
+package-lock.json linguist-generated=true

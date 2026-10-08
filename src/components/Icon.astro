@@ -1,0 +1,23 @@
+---
+import { iconPaths, type IconName } from '../data/icons'
+
+interface Props {
+  name: IconName
+  class?: string
+}
+
+const { name, class: className = 'size-5' } = Astro.props
+const markup = iconPaths[name] ?? ''
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={markup}
+/>

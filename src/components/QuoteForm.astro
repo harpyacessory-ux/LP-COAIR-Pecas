@@ -1,0 +1,105 @@
+---
+/**
+ * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.4). Grid 1.05fr · 1fr: formulário (shortcode) à esquerda, texto à direita.
+ * Mobile: texto antes do formulário. O formulário é sempre o shortcode, nunca um <form> próprio.
+ */
+import Icon from './Icon.astro'
+import Eyebrow from './Eyebrow.astro'
+import { quote, cta } from '../data/content'
+import { site } from '../data/site'
+
+const isDev = import.meta.env.DEV
+---
+
+<section id="cotacao" class="bg-neutral-gray-100 pt-8 pb-20">
+  <div class="mx-auto max-w-page px-6 lg:px-10">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
+      {/* Coluna do formulário */}
+      <div class="order-2 w-full lg:order-1">
+        <slot name="shortcode">
+          {isDev ? (
+            <div
+              class="flex min-h-[520px] w-full flex-col gap-3 rounded-2xl border border-neutral-gray-200/70 bg-neutral-light p-6 shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]"
+              aria-label="Mock do formulário (só em desenvolvimento)"
+            >
+              <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
+                Mock · formulário
+              </span>
+              <div class="grid gap-3 sm:grid-cols-2">
+                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                <div class="h-28 rounded border border-neutral-gray-200/70 bg-neutral-gray-100 sm:col-span-2" />
+              </div>
+              <div class="mt-auto h-12 w-full rounded bg-accent-orange/80 sm:w-48" />
+            </div>
+          ) : (
+            <div class="flex min-h-[520px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-primary-dark/25 bg-neutral-light p-8 text-center shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]">
+              <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
+                Espaço reservado
+              </span>
+              <p class="font-display text-lg font-bold text-ink">
+                Shortcode — formulário de cotação
+              </p>
+            </div>
+          )}
+        </slot>
+
+        {/* Nota de LGPD */}
+        <p class="mt-3 font-sans text-[11px] leading-relaxed text-ink-soft/80">
+          {quote.lgpd}
+          {site.privacyUrl && (
+            <>
+              {' '}
+              <a
+                href={site.privacyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-primary-dark underline-offset-2 hover:underline"
+              >
+                Política de privacidade
+              </a>
+              .
+            </>
+          )}
+        </p>
+      </div>
+
+      {/* Coluna de texto */}
+      <div class="order-1 lg:order-2">
+        <Eyebrow>{quote.eyebrow}</Eyebrow>
+
+        <h2 class="mt-3 font-display text-3xl leading-tight font-extrabold text-ink sm:text-4xl">
+          {quote.title}
+        </h2>
+
+        <span aria-hidden="true" class="mt-5 block h-[3px] w-16 bg-accent-orange"></span>
+
+        <p class="mt-5 font-sans text-[15px] leading-relaxed text-ink-soft sm:text-base">
+          {quote.text}
+        </p>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            type="button"
+            data-cta="cotacao-whatsapp"
+            class="btn-slave-whats inline-flex items-center justify-center gap-2.5 bg-primary-dark px-6 py-3.5 font-sans text-[15px] font-semibold text-neutral-light transition-colors duration-200 hover:bg-primary-dark-800"
+          >
+            <Icon name="whatsapp" class="size-4 shrink-0" />
+            {cta.whatsapp}
+          </button>
+        </div>
+
+        <ul class="mt-7 flex flex-wrap gap-x-6 gap-y-2.5">
+          {quote.trust.map((item) => (
+            <li class="flex items-center gap-2 font-sans text-[13px] font-medium text-ink">
+              <Icon name={item.icon} class="size-4 shrink-0 text-accent-orange" />
+              {item.label}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

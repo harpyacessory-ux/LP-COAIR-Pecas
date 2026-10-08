@@ -1,0 +1,41 @@
+---
+/**
+ * Casca de toda seção da biblioteca.
+ *
+ * O fundo (`tone`) e o respiro vertical (`rhythm`) NÃO são decididos pela seção:
+ * vêm da composição, resolvidos por `scripts/compose.mjs` contra o contrato de
+ * `src/lib/rhythm.mjs`. É assim que a alternância de fundos do padrão sobrevive
+ * à troca de seções do meio.
+ *
+ * Seção que precisa de um bloco em largura total (bloco navy dos diferenciais,
+ * por exemplo) passa `container={false}` e monta os próprios contêineres.
+ */
+import { TONES, RHYTHMS } from '../lib/rhythm.mjs'
+import type { SectionProps } from '../lib/layout'
+
+interface Props extends SectionProps {
+  id: string
+  container?: boolean
+  class?: string
+  [key: string]: unknown
+}
+
+const { id, tone, rhythm, container = true, class: className = '', ...rest } = Astro.props
+
+const toneClass = TONES[tone]?.class
+const rhythmClass = RHYTHMS[rhythm]?.class
+
+if (!toneClass) throw new Error(`Section "${id}": tom "${tone}" não existe em src/lib/rhythm.mjs`)
+if (!rhythmClass)
+  throw new Error(`Section "${id}": ritmo "${rhythm}" não existe em src/lib/rhythm.mjs`)
+---
+
+<section id={id} class:list={[toneClass, rhythmClass, className]} {...rest}>
+  {container ? (
+    <div class="mx-auto max-w-page px-6 lg:px-10">
+      <slot />
+    </div>
+  ) : (
+    <slot />
+  )}
+</section>
