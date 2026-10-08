@@ -1,0 +1,234 @@
+---
+/**
+ * Vitrine de produtos — fase "oferta" da biblioteca B2.
+ *
+ * Duas formas, resolvidas pelo conteúdo e não por entrada de briefing:
+ *
+ *   sem grupos  → uma grade de 2 colunas no mobile e 4 no desktop;
+ *   com grupos  → uma prateleira por grupo, com a logo (ou o nome) no cabeçalho,
+ *                 em trilho horizontal no mobile e grade no desktop.
+ *
+ * As duas invariantes do conteúdo são verificadas aqui, no build, porque o
+ * `contract` do manifesto não expressa condição entre itens: descrição é tudo ou
+ * nada, e todo item de vitrine agrupada aponta para um grupo existente.
+ */
+import { Image } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import SectionHeader from '@components/SectionHeader.astro'
+import type { SectionProps } from '@lib/layout'
+import { showcase, type ShowcaseGroup, type ShowcaseItem } from '@data/sections/vitrine'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+// Tipos largos de propósito: o `as const` dos dados deixa `groups: []` como `readonly []`
+// e os ids como literais, e as verificações abaixo virariam `never` na vitrine sem grupos.
+const { groups, items }: { groups: readonly ShowcaseGroup[]; items: readonly ShowcaseItem[] } =
+  showcase
+
+const described = items.filter((item) => item.description.trim()).length
+if (described !== 0 && described !== items.length) {
+  throw new Error(
+    `vitrine: descrição é tudo ou nada — ${described} de ${items.length} itens têm a frase. ` +
+      'Complete os que faltam ou apague todas: meia lista descrita lê como página inacabada.',
+  )
+}
+const showText = described === items.length
+
+const groupIds = new Set(groups.map((group) => group.id))
+for (const item of items) {
+  // Com grupos, item sem grupo não cai em prateleira nenhuma e sumiria da página em silêncio.
+  if ((groups.length || item.group) && !groupIds.has(item.group)) {
+    throw new Error(
+      item.group
+        ? `vitrine: o item "${item.id}" aponta para o grupo "${item.group}", que não existe em groups.`
+        : `vitrine: o item "${item.id}" está sem grupo — com groups preenchido, todo item aponta para um deles.`,
+    )
+  }
+}
+
+/** Com grupos, uma prateleira por grupo; sem grupos, uma só, em grade. */
+const railed = groups.length > 0
+const shelves = railed
+  ? groups.map((group) => ({
+      group,
+      items: items.filter((item) => item.group === group.id),
+    }))
+  : [{ group: null, items: [...items] }]
+
+for (const shelf of shelves) {
+  if (!shelf.items.length) {
+    throw new Error(
+      `vitrine: o grupo "${shelf.group?.id}" está sem itens. Remova o grupo ou aponte itens para ele.`,
+    )
+  }
+}
+---
+
+<Section id="vitrine" tone={tone} rhythm={rhythm}>
+  <SectionHeader
+    eyebrow={showcase.eyebrow}
+    title={showcase.title}
+    text={showcase.text}
+    width="2xl"
+  />
+
+  <div class="mt-9 flex flex-col gap-10">
+    {shelves.map((shelf) => (
+      <div data-showcase-shelf>
+        {shelf.group && (
+          <div class="flex items-center gap-4 border-b border-neutral-gray-200/70 pb-3">
+            <h3 class="flex min-w-0 items-center">
+              {shelf.group.logo ? (
+                <Image
+                  src={shelf.group.logo.src}
+                  alt={shelf.group.logo.alt}
+                  format="webp"
+                  width={220}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-8 w-auto max-w-[120px] object-contain"
+                />
+              ) : (
+                <span class="font-display text-lg leading-snug font-extrabold text-ink">
+                  {shelf.group.label}
+                </span>
+              )}
+            </h3>
+            <span class="ml-auto shrink-0 font-sans text-[12px] font-semibold tracking-[0.16em] text-ink-soft uppercase">
+              {shelf.items.length} itens
+            </span>
+          </div>
+        )}
+
+        <ul
+          data-showcase-rail
+          class:list={[
+            'mt-5 gap-4 lg:gap-5',
+            railed
+              ? 'scroll-track -mx-6 flex snap-x snap-mandatory overflow-x-auto px-6 pb-3 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0'
+              : 'grid grid-cols-2 lg:grid-cols-4',
+          ]}
+        >
+          {shelf.items.map((item) => (
+            <li class:list={[railed && 'w-[78%] shrink-0 snap-start sm:w-[44%] lg:w-auto']}>
+              <button
+                type="button"
+                data-cta={`vitrine-${item.id}`}
+                class="btn-slave-whats showcase-card group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-neutral-gray-200/70 bg-neutral-light text-left shadow-[0_1px_2px_rgba(13,29,48,0.05)] transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-accent-orange/50 hover:shadow-[0_28px_56px_-28px_rgba(0,33,71,0.35)]"
+              >
+                <span
+                  aria-hidden="true"
+                  class="absolute inset-x-0 top-0 z-10 h-[3px] origin-left scale-x-0 bg-accent-orange transition-transform duration-300 ease-out group-hover:scale-x-100"
+                />
+
+                <span class="showcase-card__stage relative flex h-40 items-center justify-center overflow-hidden">
+                  <Image
+                    src={item.photo.src}
+                    alt={item.photo.alt}
+                    format="webp"
+                    width={360}
+                    loading="lazy"
+                    decoding="async"
+                    class="relative z-[1] max-h-[7.75rem] w-auto max-w-[78%] object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.07]"
+                  />
+                </span>
+
+                <span class="flex flex-1 items-start justify-between gap-3 px-5 pt-4 pb-4">
+                  <span class="flex min-w-0 flex-col gap-1.5">
+                    <span class="font-display text-[15px] leading-snug font-extrabold text-ink">
+                      {item.title}
+                    </span>
+                    {showText && (
+                      <span class="font-sans text-[13px] leading-relaxed text-ink-soft">
+                        {item.description}
+                      </span>
+                    )}
+                  </span>
+                  <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-neutral-gray-100 text-primary-dark transition-[background-color,color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-accent-orange group-hover:text-neutral-light">
+                    <Icon name="arrow-right" class="size-3.5" />
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {railed && shelf.items.length > 1 && (
+          <div class="mt-3 flex items-center justify-center gap-3 lg:hidden">
+            <button
+              type="button"
+              data-rail-prev
+              aria-label={`Produto anterior de ${shelf.group?.label}`}
+              class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
+            >
+              <Icon name="chevron-right" class="size-4 rotate-180" />
+            </button>
+            <button
+              type="button"
+              data-rail-next
+              aria-label={`Próximo produto de ${shelf.group?.label}`}
+              class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
+            >
+              <Icon name="chevron-right" class="size-4" />
+            </button>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  /* Mesmo palco claro dos cards de produto: gradiente suave + malha de pontos
+     que esmaece nas bordas. O `mix-blend-multiply` da foto come o fundo branco
+     das imagens de catálogo, então recorte e fundo branco convivem no grid. */
+  .showcase-card__stage {
+    background-image: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
+  }
+
+  .showcase-card__stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 33, 71, 0.16) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+    mask-image: radial-gradient(ellipse at center, transparent 32%, black 90%);
+    -webkit-mask-image: radial-gradient(ellipse at center, transparent 32%, black 90%);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-card,
+    .showcase-card * {
+      transition: none !important;
+    }
+
+    .showcase-card:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  document.querySelectorAll<HTMLElement>('[data-showcase-shelf]').forEach((shelf) => {
+    const rail = shelf.querySelector<HTMLElement>('[data-showcase-rail]')
+    const prev = shelf.querySelector<HTMLButtonElement>('[data-rail-prev]')
+    const next = shelf.querySelector<HTMLButtonElement>('[data-rail-next]')
+    if (!rail || !prev || !next) return
+
+    const step = () => {
+      const card = rail.querySelector<HTMLElement>('li')
+      return card ? card.offsetWidth + 16 : rail.clientWidth * 0.8
+    }
+    const go = (dir: number) =>
+      rail.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' })
+
+    prev.addEventListener('click', () => go(-1))
+    next.addEventListener('click', () => go(1))
+  })
+</script>

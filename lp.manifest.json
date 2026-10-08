@@ -1,0 +1,236 @@
+{
+  "standardVersion": "2.7.1",
+  "composedAt": "2026-10-08",
+  "library": "../LP-STARTER-B2/sections",
+  "primitives": [],
+  "phases": {
+    "oferta": [
+      "vitrine"
+    ],
+    "apoio": [
+      "identificar"
+    ],
+    "prova": [
+      "aplicacoes"
+    ],
+    "autoridade": [
+      "diferenciais"
+    ]
+  },
+  "sections": [
+    {
+      "slug": "vitrine",
+      "id": "vitrine",
+      "title": "Vitrine de produtos",
+      "phase": "oferta",
+      "component": "ProductShowcase.astro",
+      "data": "vitrine.ts",
+      "dataExport": "showcase",
+      "carriesNavy": false,
+      "tone": "light",
+      "rhythm": "open",
+      "tones": [
+        "light",
+        "gray"
+      ],
+      "rhythms": [
+        "open",
+        "even",
+        "tight",
+        "flow"
+      ],
+      "exampleHash": "659a50238d10e7aa",
+      "ctas": [
+        "vitrine-{item.id}"
+      ],
+      "contract": {
+        "itemsPath": "items",
+        "itemsMin": 6,
+        "itemsMax": 24,
+        "requiredItemFields": [
+          "id",
+          "group",
+          "title",
+          "description",
+          "photo"
+        ],
+        "alsoCount": {
+          "groups": [
+            0,
+            6
+          ]
+        },
+        "maxLength": {
+          "text": 170,
+          "item.title": 40,
+          "item.description": 90
+        }
+      },
+      "assets": [
+        {
+          "dir": "vitrine",
+          "match": "produto-",
+          "files": "uma foto por produto, 6 a 24",
+          "spec": "PNG/JPG 800×600 (4:3), produto centrado, fundo branco ou transparente",
+          "width": 800,
+          "height": 600,
+          "alpha": null
+        },
+        {
+          "dir": "vitrine",
+          "match": "marca-",
+          "files": "uma logo por grupo (opcional)",
+          "spec": "PNG 400×160, fundo branco ou transparente",
+          "width": 400,
+          "height": 160,
+          "alpha": null
+        }
+      ]
+    },
+    {
+      "slug": "identificar",
+      "id": "identificar",
+      "title": "Painel de apoio à identificação",
+      "phase": "apoio",
+      "component": "SupportPanel.astro",
+      "data": "identificar.ts",
+      "dataExport": "supportPanel",
+      "carriesNavy": true,
+      "tone": "light",
+      "rhythm": "panel-lead",
+      "tones": [
+        "light",
+        "gray"
+      ],
+      "rhythms": [
+        "panel-lead"
+      ],
+      "exampleHash": "dfa6bcf7c0258bb1",
+      "ctas": [
+        "identificar-cta"
+      ],
+      "contract": {
+        "itemsPath": "items",
+        "itemsMin": 6,
+        "itemsMax": 6,
+        "requiredItemFields": [
+          "icon",
+          "label",
+          "hint"
+        ],
+        "maxLength": {
+          "text": 170,
+          "microcopy": 48
+        }
+      },
+      "assets": []
+    },
+    {
+      "slug": "aplicacoes",
+      "id": "aplicacoes",
+      "title": "Aplicações",
+      "phase": "prova",
+      "component": "ApplicationsGallery.astro",
+      "data": "aplicacoes.ts",
+      "dataExport": "applications",
+      "carriesNavy": false,
+      "tone": "gray",
+      "rhythm": "centered-lead",
+      "tones": [
+        "light",
+        "gray"
+      ],
+      "rhythms": [
+        "centered-lead",
+        "even",
+        "flow"
+      ],
+      "exampleHash": "61d1254bd3fc3c58",
+      "ctas": [
+        "aplicacoes-{item.id}"
+      ],
+      "contract": {
+        "itemsPath": "items",
+        "itemsMin": 4,
+        "itemsMax": 4,
+        "requiredItemFields": [
+          "id",
+          "label",
+          "description",
+          "photo"
+        ],
+        "maxLength": {
+          "text": 170,
+          "item.description": 90
+        }
+      },
+      "assets": [
+        {
+          "dir": "aplicacoes",
+          "files": "4 fotos",
+          "spec": "JPG/PNG 1200×900 (4:3), equipamento em operação",
+          "width": 1200,
+          "height": 900,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "slug": "diferenciais",
+      "id": "diferenciais",
+      "title": "Diferenciais",
+      "phase": "autoridade",
+      "component": "WhyBrand.astro",
+      "data": "diferenciais.ts",
+      "dataExport": "why",
+      "carriesNavy": true,
+      "tone": "gray",
+      "rhythm": "overlap",
+      "tones": [
+        "light",
+        "gray"
+      ],
+      "rhythms": [
+        "overlap"
+      ],
+      "exampleHash": "24683935274bbad0",
+      "ctas": [
+        "diferenciais-cta"
+      ],
+      "contract": {
+        "itemsPath": "reasons",
+        "itemsMin": 5,
+        "itemsMax": 5,
+        "requiredItemFields": [
+          "icon",
+          "title",
+          "description"
+        ],
+        "maxLength": {
+          "text": 320,
+          "item.description": 70
+        }
+      },
+      "assets": [
+        {
+          "dir": "diferenciais",
+          "match": "cenario",
+          "files": "cenario.jpg",
+          "spec": "Cenário/bancada 1600×900, sangra à direita do bloco navy",
+          "width": 1600,
+          "height": 900,
+          "alpha": false
+        },
+        {
+          "dir": "diferenciais",
+          "match": "pessoa",
+          "files": "pessoa.png",
+          "spec": "Pessoa recortada de corpo inteiro, 1220×1000, fundo transparente",
+          "width": 1220,
+          "height": 1000,
+          "alpha": true
+        }
+      ]
+    }
+  ]
+}

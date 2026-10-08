@@ -1,0 +1,227 @@
+---
+/**
+ * Diferenciais — fase "autoridade" da biblioteca B2.
+ *
+ * Bloco navy em largura total (por isso `container={false}`) com 5 cards
+ * sobrepostos à sua base. É a segunda seção que carrega bloco navy: o respiro
+ * escuro da segunda metade, imediatamente antes da conversão.
+ */
+import { Picture, Image } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import Button from '@components/Button.astro'
+import Eyebrow from '@components/Eyebrow.astro'
+import type { SectionProps } from '@lib/layout'
+import { cta } from '@data/content'
+import { why } from '@data/sections/diferenciais'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+---
+
+<Section id="diferenciais" tone={tone} rhythm={rhythm} container={false} class="relative">
+  {/* Bloco navy em largura total */}
+  <div class="why-hero navy-premium relative overflow-hidden">
+    <span aria-hidden="true" class="why-grid pointer-events-none absolute inset-0"></span>
+
+    {/* Foto de cenário sangrando à direita (desktop) e no topo (mobile) */}
+    <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-1/2">
+      <Picture
+        src={why.scene.src}
+        alt={why.scene.alt}
+        widths={[640, 1024, 1600]}
+        sizes="(min-width: 1024px) 52vw, 100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover object-[40%_center]"
+        pictureAttributes={{ class: 'absolute inset-0 h-full w-full' }}
+      />
+      <span
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-dark via-primary-dark/20 to-transparent lg:bg-gradient-to-r lg:from-primary-dark lg:via-primary-dark/25 lg:to-transparent"
+      ></span>
+      <span
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-2/5 bg-gradient-to-t from-primary-dark-900 to-transparent lg:block"
+      ></span>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-page px-6 pt-10 pb-8 lg:px-10 lg:pt-10 lg:pb-24">
+      <span
+        aria-hidden="true"
+        class="pointer-events-none absolute top-5 left-6 hidden size-[18px] border-t-2 border-l-2 border-accent-orange opacity-90 lg:top-8 lg:left-10 lg:block"
+      ></span>
+      <div class="max-w-xl lg:max-w-[46%]">
+        <Eyebrow tone="light">{why.eyebrow}</Eyebrow>
+        <h2 class="mt-3 font-display text-3xl leading-[1.1] font-extrabold text-neutral-light sm:text-4xl xl:text-[44px]">
+          {why.titleLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </h2>
+
+        <span aria-hidden="true" class="mt-5 block h-[3px] w-16 bg-accent-orange"></span>
+
+        <p class="mt-5 font-sans text-[15px] leading-relaxed text-neutral-light/75 sm:text-base">
+          {why.text}
+        </p>
+
+        <Button
+          cta="diferenciais-cta"
+          variant="primary"
+          class="mt-7 w-full shadow-[0_14px_30px_-12px_rgba(255,107,0,0.85)] sm:w-auto"
+        >
+          {cta.primary}
+        </Button>
+      </div>
+    </div>
+
+    <div class="why-people" aria-hidden="true">
+      <Image
+        src={why.person.src}
+        alt={why.person.alt}
+        format="webp"
+        width={1220}
+        loading="lazy"
+        decoding="async"
+        class="why-person"
+      />
+    </div>
+  </div>
+
+  {/* Cards sobrepostos à base do bloco navy */}
+  <div class="relative z-10 mx-auto -mt-16 max-w-page px-6 lg:px-10">
+    <ul
+      class="why-track scroll-track -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-3 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0"
+      aria-label={why.eyebrow}
+    >
+      {why.reasons.map((reason) => (
+        <li class="why-card group relative flex w-[78%] shrink-0 snap-start flex-col gap-2.5 overflow-hidden rounded-2xl border border-neutral-gray-200/70 bg-neutral-light p-4 shadow-[0_24px_48px_-24px_rgba(0,24,48,0.45)] transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-accent-orange/50 hover:shadow-[0_32px_60px_-28px_rgba(0,33,71,0.5)] sm:w-[44%] lg:w-auto">
+          <span
+            aria-hidden="true"
+            class="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-accent-orange transition-transform duration-300 ease-out group-hover:scale-x-100"
+          />
+          <div class="flex items-center gap-2.5">
+            <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-neutral-gray-100 text-primary-dark-800 transition-colors duration-300 group-hover:bg-accent-orange/10 group-hover:text-accent-orange">
+              <Icon name={reason.icon} class="size-[18px]" />
+            </span>
+            <h3 class="line-clamp-2 flex min-h-[2.5em] items-center font-display text-[14px] leading-[1.25] font-extrabold text-ink">
+              {reason.title}
+            </h3>
+          </div>
+          <p class="line-clamp-2 min-h-[3.25em] font-sans text-[13px] leading-relaxed text-ink-soft">
+            {reason.description}
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-3 flex items-center justify-center gap-3 lg:hidden">
+      <button
+        type="button"
+        data-why-prev
+        aria-label="Diferencial anterior"
+        class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
+      >
+        <Icon name="chevron-right" class="size-4 rotate-180" />
+      </button>
+      <button
+        type="button"
+        data-why-next
+        aria-label="Próximo diferencial"
+        class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
+      >
+        <Icon name="chevron-right" class="size-4" />
+      </button>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .why-hero {
+    isolation: isolate;
+  }
+  .why-people {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 620px);
+    height: 500px;
+    margin: 0 auto;
+    pointer-events: none;
+  }
+  .why-person {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 12px 20px rgb(0 15 35 / 25%));
+  }
+  @media (min-width: 1024px) {
+    .why-hero {
+      display: flex;
+      align-items: center;
+      min-height: 520px;
+    }
+    .why-people {
+      position: absolute;
+      right: 2%;
+      bottom: 0;
+      width: 49%;
+      height: 100%;
+      max-height: 560px;
+    }
+  }
+  @media (max-width: 389px) {
+    .why-people {
+      height: 450px;
+    }
+  }
+
+  .why-grid {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse at 15% 10%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 15% 10%, black 0%, transparent 70%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .why-card,
+    .why-card * {
+      transition: none !important;
+    }
+
+    .why-card:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-why]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('.why-track')
+    const prev = root.querySelector<HTMLButtonElement>('[data-why-prev]')
+    const next = root.querySelector<HTMLButtonElement>('[data-why-next]')
+    if (!track || !prev || !next) return
+
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('li')
+      return card ? card.offsetWidth + 16 : track.clientWidth * 0.8
+    }
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }))
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }))
+  })
+</script>

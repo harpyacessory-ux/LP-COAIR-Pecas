@@ -1,20 +1,24 @@
 ---
 /**
- * Página provisória — a composição ainda não foi aplicada.
+ * ARQUIVO GERADO — não edite à mão.
  *
- * Só a estrutura fixa está aqui. As seções do meio entram com:
+ * Saiu de `npm run compose`, que resolve a composição da biblioteca de seções e
+ * grava `lp.manifest.json`. Para mudar a página, mude a composição:
  *
- *   npm run compose -- --list                 ver o acervo da biblioteca
- *   npm run compose -- <slug> <slug> ...      montar a página
+ *   npm run compose -- <slugs da composição nova>
  *
- * O compositor sobrescreve este arquivo. O catálogo com o que cada seção faz, o que
- * ela exige do briefing e quando usá-la está em docs/BIBLIOTECA.md.
+ * Header, Hero, Cotação e Footer são estrutura fixa do padrão (regra 13) e estão
+ * fora da biblioteca. Os dois slots de shortcode saem de `site.ts`.
  */
 import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
 import Hero from '../components/Hero.astro'
 import QuoteForm from '../components/QuoteForm.astro'
 import Footer from '../components/Footer.astro'
+import ProductShowcase from '../components/sections/ProductShowcase.astro'
+import SupportPanel from '../components/sections/SupportPanel.astro'
+import ApplicationsGallery from '../components/sections/ApplicationsGallery.astro'
+import WhyBrand from '../components/sections/WhyBrand.astro'
 import { shortcodes } from '../data/site'
 ---
 
@@ -25,28 +29,10 @@ import { shortcodes } from '../data/site'
     <Hero>
       <Fragment slot="shortcode">{shortcodes.chat}</Fragment>
     </Hero>
-
-    <section
-      id="composicao-pendente"
-      class="bg-neutral-gray-100 py-16"
-      aria-label="Composição pendente"
-    >
-      <div class="mx-auto max-w-page px-6 lg:px-10">
-        <div
-          class="rounded-2xl border-2 border-dashed border-accent-orange/50 bg-neutral-light p-8 text-center"
-        >
-          <h2 class="font-display text-2xl font-extrabold text-ink">Composição pendente</h2>
-          <p class="mx-auto mt-3 max-w-xl font-sans text-[15px] leading-relaxed text-ink-soft">
-            As seções do meio ainda não foram escolhidas. Rode
-            <code class="font-mono text-[13px] text-primary-dark">npm run compose -- --list</code>
-            para ver o acervo e
-            <code class="font-mono text-[13px] text-primary-dark">npm run compose -- &lt;seções&gt;</code>
-            para montar a página. Referência completa em <code class="font-mono text-[13px] text-primary-dark">docs/BIBLIOTECA.md</code>.
-          </p>
-        </div>
-      </div>
-    </section>
-
+    <ProductShowcase tone="light" rhythm="open" />
+    <SupportPanel tone="light" rhythm="panel-lead" />
+    <ApplicationsGallery tone="gray" rhythm="centered-lead" />
+    <WhyBrand tone="gray" rhythm="overlap" />
     <QuoteForm>
       <Fragment slot="shortcode">{shortcodes.form}</Fragment>
     </QuoteForm>

@@ -4,15 +4,15 @@
  */
 export const site = {
   /** Nome completo da empresa (entrada 1). */
-  brand: 'Empresa Exemplo',
+  brand: 'COAIR Compressores de Ar',
   /** Nome curto usado em frases como "Por que a …" (entrada 2). */
-  brandShort: 'Exemplo',
+  brandShort: 'COAIR',
   /** Produto principal, no plural (entrada 3). Vai na tagline do header e no H1. */
-  product: 'Produtos industriais',
+  product: 'Peças para compressores industriais',
   /** Contexto de uso (entrada 4). Completa o H1 e o title. */
   context: 'manutenção e reposição',
   /** URL absoluta da página no ar (entrada 10). Usada em canonical e og:url. */
-  url: 'https://www.exemplo.com.br/lp/produtos-industriais',
+  url: 'https://www.coair.com.br/pecas/compressores',
   /** Endereço completo com CEP (entrada 9). Footer e JSON-LD. */
   address: 'Rua Exemplo, 100 - Centro, Cidade - UF, 00000-000',
   /** Link da política de privacidade do cliente (entrada 10). Vazio esconde o link, mas a nota de LGPD continua. */
@@ -35,11 +35,11 @@ export const shortcodes = {
 } as const
 
 /** Título da aba: "{Produto} para {contexto} | {Marca}". */
-export const title = `${site.product} para ${site.context} | ${site.brand}`
+export const title = `${site.product} para ${site.context} | ${site.brandShort}`
 
 /** Meta description (≤ 160 caracteres). Ajuste o texto, mantendo marcas e o apoio técnico. */
 export const description =
-  'Solicite cotação de produtos industriais das principais marcas. Apoio técnico na identificação e especificação para manutenção industrial.'
+  'Peças e componentes multimarcas para compressores de parafuso, com suporte técnico na cotação. Atendimento B2B no estado de São Paulo.'
 
 /**
  * Campanha que leva tráfego para esta LP (entrada 15). Quem clica digitou a
@@ -51,18 +51,79 @@ export const campaign = {
    * estiver no H1 e no title — aceita maiúscula, acento, plural e outra ordem.
    * `null` quando a LP não tem campanha definida; vazio é entrada não preenchida.
    */
-  mainKeyword: '',
+  mainKeyword: 'peças para compressores industriais',
   /**
    * Negativas **de oferta** da campanha — o que a empresa não vende. O `check:lp`
    * avisa quando o texto da página usa uma delas. As de intenção (emprego, curso)
    * ficam só no BRIEFING.md.
    */
-  negatives: [],
+  negatives: [
+    'pistão',
+    'pistao',
+    'cabeçote',
+    'biela',
+    'virabrequim',
+    'pressostato',
+    'csi',
+    'csl',
+    'msi',
+    'msv',
+    'anel de segmento',
+    'válvula de palheta',
+    'automático de compressor',
+    '10 pés',
+    '15 pés',
+    '20 pés',
+    '25 pés',
+    '40 pés',
+    '60 pés',
+    'pratic air',
+    'portátil',
+    'portatil',
+    'mini compressor',
+    '12v',
+    '24v',
+    'compressor automotivo',
+    'compressor para carro',
+    'inflador',
+    'inflador de pneu',
+    'odontológico',
+    'odontologico',
+    'dental',
+    'dentista',
+    'compressor dental',
+    'compressor geladeira',
+    'compressor refrigerador',
+    'compressor ar condicionado',
+    'compressor split',
+    'compressor freezer',
+    'compressor hermético',
+    'compressor hermetico',
+    'residencial',
+    'doméstico',
+    'apartamento',
+    'para casa',
+    'hobby',
+  ],
   /**
    * Claims que o briefing proíbe ("autorizado", "distribuidor", "até 42%"), em todas
    * as formas em que podem aparecer. O `check:lp` falha se a página usar qualquer um.
    */
-  forbidden: [],
+  forbidden: [
+    'autorizado',
+    'autorizada',
+    'assistência autorizada',
+    'representante',
+    'representação',
+    'revenda',
+    'revendedor',
+    'revendedora',
+    'distribuidor',
+    'distribuidora',
+    'distribuição',
+    'até 42%',
+    '+42%',
+  ],
 } as const satisfies {
   mainKeyword: string | null
   negatives: readonly string[]
@@ -70,4 +131,4 @@ export const campaign = {
 }
 
 /** WhatsApp comercial (entrada 12). Número no formato internacional, só dígitos (ex.: 5511999999999). Vazio desativa o botão flutuante. */
-export const whatsapp = ''
+export const whatsapp = '5519993544919'

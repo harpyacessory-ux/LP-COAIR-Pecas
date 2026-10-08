@@ -32,7 +32,7 @@ export interface TrustItem {
 export const cta = {
   primary: 'Solicite sua cotação',
   primaryShort: 'Cotação',
-  secondary: 'Identifique seu produto',
+  secondary: 'Identifique sua peça',
   card: 'Falar com especialista',
   whatsapp: 'Chamar no WhatsApp',
 } as const
@@ -46,17 +46,17 @@ export const header = {
 /* -------------------------------------------------------------------- hero */
 
 export const hero = {
-  eyebrow: 'Manutenção Industrial',
+  eyebrow: 'Compressores de parafuso',
   title: `${site.product} para ${site.context}`,
-  text: 'Soluções para diferentes aplicações industriais, com apoio na identificação, especificação e cotação.',
+  text: 'Peças e componentes para compressores de parafuso, com suporte técnico para identificar a peça certa. Atendimento B2B no estado de São Paulo.',
   banner: {
     src: heroBg,
-    alt: 'Produto industrial em destaque sobre fundo técnico',
+    alt: 'Peças para compressor de parafuso em destaque sobre fundo técnico',
   },
   points: [
-    { icon: 'shield', line1: 'Produtos para', line2: 'aplicações industriais' },
-    { icon: 'gear', line1: 'Marca A, Marca B', line2: 'e Marca C' },
-    { icon: 'truck', line1: 'Atendimento B2B', line2: 'para manutenção' },
+    { icon: 'layers', line1: 'Componentes', line2: 'multimarcas' },
+    { icon: 'badge-check', line1: 'Peças da', line2: 'linha HPP®' },
+    { icon: 'wrench', line1: 'Suporte técnico', line2: 'na cotação' },
   ],
 } as const satisfies {
   eyebrow: string
@@ -71,11 +71,11 @@ export const hero = {
 export const quote = {
   eyebrow: 'Solicite sua cotação',
   title: `Fale com quem entende de ${site.product.toLowerCase()}.`,
-  text: 'Nossa equipe está pronta para identificar, especificar e cotar o produto certo para a sua aplicação. Preencha o formulário ou fale direto conosco pelo WhatsApp.',
+  text: 'Informe marca, modelo e código da peça: nossa equipe técnica identifica e cota o item certo, com atendimento B2B no estado de São Paulo. Preencha o formulário ou fale direto conosco pelo WhatsApp.',
   trust: [
-    { icon: 'clock', label: 'Resposta rápida' },
-    { icon: 'shield', label: 'Apoio técnico especializado' },
-    { icon: 'map-pin', label: 'Atendimento em todo o Brasil' },
+    { icon: 'map-pin', label: 'Atendimento em São Paulo' },
+    { icon: 'users', label: 'Equipe Técnica Interna' },
+    { icon: 'factory', label: 'Atendimento B2B' },
   ],
   /** Nota de LGPD exibida abaixo do formulário. */
   lgpd: `Seus dados são usados apenas para responder à sua solicitação de cotação, conforme a LGPD.`,
