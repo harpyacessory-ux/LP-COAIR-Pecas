@@ -6,7 +6,7 @@
  * sobrepostos à sua base. É a segunda seção que carrega bloco navy: o respiro
  * escuro da segunda metade, imediatamente antes da conversão.
  */
-import { Picture, Image } from 'astro:assets'
+import { Picture } from 'astro:assets'
 import Section from '@components/Section.astro'
 import Icon from '@components/Icon.astro'
 import Button from '@components/Button.astro'
@@ -22,11 +22,11 @@ const { tone, rhythm } = Astro.props
 
 <Section id="diferenciais" tone={tone} rhythm={rhythm} container={false} class="relative">
   {/* Bloco navy em largura total */}
-  <div class="why-hero navy-premium relative overflow-hidden rounded-3xl lg:rounded-[40px]">
+  <div class="why-hero navy-premium relative flex flex-col overflow-hidden rounded-3xl lg:rounded-[40px]">
     <span aria-hidden="true" class="why-grid pointer-events-none absolute inset-0"></span>
 
-    {/* Foto de cenário sangrando à direita (desktop) e no topo (mobile) */}
-    <div class="absolute inset-y-0 right-0 w-full lg:w-[82%]">
+    {/* Foto de cenário sangrando à direita (desktop) e abaixo do texto (mobile) */}
+    <div class="relative order-2 h-[340px] w-full sm:h-[420px] lg:absolute lg:inset-y-0 lg:right-0 lg:order-none lg:h-auto lg:w-[82%]">
       <Picture
         src={why.scene.src}
         alt={why.scene.alt}
@@ -36,12 +36,12 @@ const { tone, rhythm } = Astro.props
         fallbackFormat="webp"
         loading="lazy"
         decoding="async"
-        class="absolute inset-0 h-full w-full object-cover object-[100%_50%]"
+        class="absolute inset-0 h-full w-full object-cover object-[78%_30%] lg:object-[100%_50%]"
         pictureAttributes={{ class: 'absolute inset-0 h-full w-full' }}
       />
       <span
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-primary-dark)_0%,var(--color-primary-dark)_42%,rgb(0_33_71/0.25)_62%,rgb(0_33_71/0.55)_100%)] lg:bg-[linear-gradient(to_right,var(--color-primary-dark)_0%,var(--color-primary-dark)_28%,transparent_52%)]"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-primary-dark)_0%,transparent_30%)] lg:bg-[linear-gradient(to_right,var(--color-primary-dark)_0%,var(--color-primary-dark)_28%,transparent_52%)]"
       ></span>
       <span
         aria-hidden="true"
@@ -49,14 +49,14 @@ const { tone, rhythm } = Astro.props
       ></span>
     </div>
 
-    <div class="relative mx-auto w-full max-w-page px-6 pt-10 pb-8 lg:px-10 lg:pt-10 lg:pb-24">
+    <div class="relative order-1 mx-auto w-full max-w-page px-6 pt-10 pb-8 lg:px-10 lg:pt-10 lg:pb-24">
       <span
         aria-hidden="true"
         class="pointer-events-none absolute top-5 left-6 hidden size-[18px] border-t-2 border-l-2 border-accent-orange opacity-90 lg:top-8 lg:left-10 lg:block"
       ></span>
-      <div class="max-w-xl lg:max-w-[46%]">
+      <div class="max-w-xl lg:max-w-[50%]">
         <Eyebrow tone="light">{why.eyebrow}</Eyebrow>
-        <h2 class="mt-3 font-display text-3xl leading-[1.1] font-extrabold text-neutral-light sm:text-4xl xl:text-[44px]">
+        <h2 class="mt-3 font-display text-3xl leading-[1.1] font-extrabold text-neutral-light sm:text-4xl xl:text-[40px]">
           {why.titleLines.map((line, i) => (
             <>
               {i > 0 && <br />}
@@ -79,19 +79,6 @@ const { tone, rhythm } = Astro.props
           {cta.primary}
         </Button>
       </div>
-    </div>
-
-    <div class="why-people" aria-hidden="true">
-      <Image
-        src={why.person.src}
-        alt={why.person.alt}
-        format="webp"
-        widths={[480, 760, 1145]}
-        sizes="(min-width: 1024px) 480px, 90vw"
-        loading="lazy"
-        decoding="async"
-        class="why-person"
-      />
     </div>
   </div>
 
@@ -145,45 +132,11 @@ const { tone, rhythm } = Astro.props
   .why-hero {
     isolation: isolate;
   }
-  .why-people {
-    position: relative;
-    z-index: 1;
-    width: min(100%, 620px);
-    height: 500px;
-    margin: 0 auto;
-    pointer-events: none;
-  }
-  .why-person {
-    position: absolute;
-    z-index: 2;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    object-position: bottom center;
-    filter: drop-shadow(0 12px 20px rgb(0 15 35 / 25%));
-  }
   @media (min-width: 1024px) {
     .why-hero {
       display: flex;
       align-items: center;
       min-height: 520px;
-    }
-    .why-people {
-      position: absolute;
-      top: 4%;
-      bottom: -10%;
-      left: 40%;
-      width: 42%;
-      height: auto;
-    }
-  }
-  @media (max-width: 389px) {
-    .why-people {
-      height: 450px;
     }
   }
 

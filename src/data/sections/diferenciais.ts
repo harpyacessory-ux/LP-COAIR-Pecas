@@ -8,8 +8,7 @@ import type { IconName } from '@data/icons'
 import type { Photo } from '@data/types'
 import { site } from '@data/site'
 
-import cenario from '@assets/diferenciais/cenario.png'
-import pessoa from '@assets/diferenciais/pessoa.png'
+import cenario from '@assets/diferenciais/cenario.jpg'
 
 export interface Reason {
   icon: IconName
@@ -19,16 +18,12 @@ export interface Reason {
 
 export const why = {
   eyebrow: `Por que a ${site.brandShort}`,
-  /** Cada item é uma linha do H2 (quebra forçada). 3–6 palavras no total. */
-  titleLines: ['Menos paradas,', 'mais vida útil.'],
+  /** Cada item é uma linha do H2 (quebra forçada). */
+  titleLines: ['Componentes de alta qualidade,', 'menos paradas e mais vida útil.'],
   text: `Peças da linha HPP® e componentes multimarcas para compressores de parafuso, com engenharia e laboratório internos. A ${site.brandShort} ajuda a identificar a peça certa para manter o seu ar comprimido em operação.`,
   scene: {
     src: cenario,
-    alt: 'Sala de compressores industriais com tanques azuis e tubulações',
-  },
-  person: {
-    src: pessoa,
-    alt: `Técnico da ${site.brandShort}`,
+    alt: `Técnico da ${site.brandShort} ao lado de compressores de parafuso de várias marcas`,
   },
   reasons: [
     {
@@ -62,6 +57,5 @@ export const why = {
   titleLines: readonly string[]
   text: string
   scene: Photo
-  person: Photo
   reasons: readonly [Reason, Reason, Reason, Reason, Reason]
 }

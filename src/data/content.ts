@@ -11,7 +11,7 @@ import type { IconName } from './icons'
 import type { Photo } from './types'
 import { site } from './site'
 
-import heroBg from '@assets/heroBg.png'
+import heroBg from '@assets/heroBg.jpg'
 
 /* ------------------------------------------------------------------ tipos */
 
@@ -47,16 +47,17 @@ export const header = {
 
 export const hero = {
   eyebrow: 'Soluções em ar comprimido',
-  title: 'Peças para compressores industriais com ar comprimido confiável.',
+  title:
+    'Peças para compressores industriais de parafuso com quem é especialista em ar comprimido.',
   /** Trecho do título destacado em verde (precisa existir dentro de `title`). */
-  highlight: 'confiável',
-  text: 'Compressores, peças e manutenção técnica para manter sua operação em movimento.',
+  highlight: 'ar comprimido',
+  text: 'Componentes para as principais marcas de compressores: Atlas Copco, Ingersoll Rand, Schulz, Chicago Pneumatic e Kaeser.',
   /** Rótulos dos botões do hero (o vocabulário `cta` continua valendo no resto da página). */
   ctaPrimary: 'Solicite uma cotação',
   ctaSecondary: 'Fale com um especialista',
   banner: {
     src: heroBg,
-    alt: 'Compressor de ar COAIR em ambiente industrial',
+    alt: 'Filtros, válvulas, correias e outras peças para compressores de parafuso diante de um compressor',
   },
   points: [
     { icon: 'shield', line1: 'Suporte técnico', line2: 'especializado' },
@@ -78,7 +79,8 @@ export const hero = {
 
 export const quote = {
   eyebrow: 'Solicite sua cotação',
-  title: `Fale com quem entende de ${site.product.toLowerCase()}.`,
+  title:
+    'Fale com quem é especialista em ar comprimido com as melhores condições em peças de manutenção em compressores de parafuso.',
   text: 'Informe marca, modelo e código da peça: nossa equipe técnica identifica e cota o item certo, com atendimento B2B no estado de São Paulo. Preencha o formulário ou fale direto conosco pelo WhatsApp.',
   /** O `\n` marca a quebra de linha de cada destaque. */
   trust: [

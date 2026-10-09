@@ -1,16 +1,18 @@
 /**
  * Dados da seção "Aplicações" (biblioteca B2, fase: prova).
  *
- * 4 cards-botão com foto, ícone verde e cabeçalho centrado sobre fundo escuro.
- * O card inteiro é o CTA. As fotos foram recortadas do layout de referência.
+ * COAIR: em vez de aplicações, a seção mostra 4 compressores de marcas para as quais
+ * a COAIR fornece componentes. Fotos enviadas pelo cliente, centralizadas em fundo
+ * branco 4:3. O card inteiro é o CTA.
  */
 import type { Photo } from '@data/types'
 import type { IconName } from '@data/icons'
+import { site } from '@data/site'
 
-import app1 from '@assets/aplicacoes/aplicacao-1.png'
-import app2 from '@assets/aplicacoes/aplicacao-2.png'
-import app3 from '@assets/aplicacoes/aplicacao-3.png'
-import app4 from '@assets/aplicacoes/aplicacao-4.png'
+import coair from '@assets/aplicacoes/coair-hd75.jpg'
+import ingersollRand from '@assets/aplicacoes/ingersoll-rand-rs160.jpg'
+import atlasCopco from '@assets/aplicacoes/atlas-copco-ga.jpg'
+import kaeser from '@assets/aplicacoes/kaeser-asd30.jpg'
 
 export interface Application {
   id: string
@@ -21,37 +23,38 @@ export interface Application {
 }
 
 export const applications = {
-  eyebrow: 'Aplicações',
-  title: 'Produtos para diferentes aplicações industriais',
-  text: 'Componentes destinados à manutenção e reposição em máquinas e equipamentos utilizados em diferentes processos industriais.',
+  eyebrow: 'Marcas atendidas',
+  title: `Na ${site.brandShort} Compressores você encontra componentes para as principais marcas de compressores`,
+  /** Vazio: a seção fica só com o título, sem parágrafo. */
+  text: '',
   items: [
     {
-      id: 'motores',
-      label: 'Motores Elétricos',
-      description: 'Aplicações em motores e conjuntos rotativos.',
-      icon: 'fan',
-      photo: { src: app1, alt: 'Motor elétrico industrial azul acoplado em linha de processo' },
+      id: 'coair',
+      label: site.brandShort,
+      description: 'Peças para a linha Heavy Duty de compressores de parafuso.',
+      icon: 'badge-check',
+      photo: { src: coair, alt: `Compressor de parafuso ${site.brandShort} HD75 VSD Heavy Duty` },
     },
     {
-      id: 'bombas',
-      label: 'Bombas',
-      description: 'Aplicações em bombas e sistemas industriais.',
+      id: 'ingersoll-rand',
+      label: 'Ingersoll Rand',
+      description: 'Componentes para compressores de parafuso Ingersoll Rand.',
       icon: 'cog',
-      photo: { src: app2, alt: 'Bombas centrífugas industriais em tubulação' },
+      photo: { src: ingersollRand, alt: 'Compressor de parafuso Ingersoll Rand RS160ie' },
     },
     {
-      id: 'redutores',
-      label: 'Redutores',
-      description: 'Sistemas de transmissão e redução.',
+      id: 'atlas-copco',
+      label: 'Atlas Copco',
+      description: 'Componentes para compressores de parafuso Atlas Copco.',
       icon: 'cog',
-      photo: { src: app3, alt: 'Redutor de velocidade industrial acoplado a motor' },
+      photo: { src: atlasCopco, alt: 'Compressor de parafuso Atlas Copco da linha GA' },
     },
     {
-      id: 'transportadores',
-      label: 'Transportadores',
-      description: 'Sistemas de movimentação e transporte industrial.',
-      icon: 'conveyor',
-      photo: { src: app4, alt: 'Esteira transportadora curva em linha de produção' },
+      id: 'kaeser',
+      label: 'Kaeser',
+      description: 'Componentes para compressores de parafuso Kaeser.',
+      icon: 'cog',
+      photo: { src: kaeser, alt: 'Compressor de parafuso Kaeser ASD 30' },
     },
   ],
 } as const satisfies {

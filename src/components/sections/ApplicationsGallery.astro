@@ -2,9 +2,8 @@
 /**
  * Galeria de aplicações — fase "prova" da biblioteca B2, no visual COAIR.
  *
- * Fundo industrial escuro em largura total, cabeçalho centrado e 4 cards-botão: a foto
- * se dissolve no rodapé escuro do card, onde ficam o ícone verde, o título, o texto e a
- * seta. O card inteiro é o CTA, por isso o `<button>` envolve a foto e o texto.
+ * Fundo industrial escuro em largura total, cabeçalho centrado e 4 cards-botão: a foto do
+ * compressor num palco branco e, abaixo, o ícone verde, o nome da marca, o texto e a seta. O card inteiro é o CTA, por isso o `<button>` envolve a foto e o texto.
  */
 import { Image } from 'astro:assets'
 import Section from '@components/Section.astro'
@@ -50,7 +49,8 @@ const { tone, rhythm } = Astro.props
             data-cta={`aplicacoes-${app.id}`}
             class="btn-slave-whats app-card group relative flex h-full w-full flex-col overflow-hidden rounded-[10px] text-left transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_56px_-28px_rgba(0,0,0,0.9)]"
           >
-            <div class="relative aspect-[4/3] overflow-hidden">
+            {/* Foto do compressor (fundo branco) num palco claro */}
+            <div class="relative m-2.5 aspect-[4/3] overflow-hidden rounded-md bg-neutral-light">
               <Image
                 src={app.photo.src}
                 alt={app.photo.alt}
@@ -58,13 +58,11 @@ const { tone, rhythm } = Astro.props
                 width={640}
                 loading="lazy"
                 decoding="async"
-                class="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                class="h-full w-full object-contain object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
               />
-              <span aria-hidden="true" class="app-fade pointer-events-none absolute inset-0" />
             </div>
 
-            {/* Rodapé do card: sobe sobre a base da foto */}
-            <div class="relative -mt-6 flex flex-1 gap-4 pr-5 pb-6 pl-[22px]">
+            <div class="relative flex flex-1 gap-4 pt-2.5 pr-5 pb-6 pl-[22px]">
               <span class="flex size-[52px] shrink-0 items-center justify-center rounded-md bg-brand-green text-neutral-light shadow-[0_10px_24px_-10px_rgb(63_220_90/0.7)]">
                 <Icon name={app.icon} class="size-[30px]" />
               </span>
@@ -119,17 +117,6 @@ const { tone, rhythm } = Astro.props
     background:
       linear-gradient(#03121e, #03121e) padding-box,
       linear-gradient(to bottom, rgb(63 220 90 / 0.9), rgb(63 220 90 / 0.3)) border-box;
-  }
-
-  /* A foto escurece até a cor do rodapé do card. */
-  .app-fade {
-    background: linear-gradient(
-      to bottom,
-      transparent 45%,
-      rgb(3 18 30 / 0.55) 70%,
-      rgb(3 18 30 / 0.92) 90%,
-      #03121e 100%
-    );
   }
 
   @media (prefers-reduced-motion: reduce) {
