@@ -4,6 +4,48 @@
    Tokens do padrão B2 (PROMPT-PADRAO-LP, item 2).
    Só altere os valores se a entrevista (entrada 21) trouxer cores/fonte do cliente.
    --------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+   Fonte provisória com as medidas da Manrope (Arial no Windows/Mac, Liberation Sans
+   no Linux). Enquanto a Manrope do Google Fonts não chega, o texto já ocupa o mesmo
+   espaço: a troca não muda as quebras de linha nem empurra a página (CLS).
+   A largura da Arial varia com o peso, por isso há um ajuste por faixa de peso.
+   --------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Manrope Fallback';
+  font-weight: 100 549;
+  src:
+    local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'),
+    local('Helvetica');
+  size-adjust: 102.8%;
+  ascent-override: 104.09%;
+  descent-override: 29.18%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Manrope Fallback';
+  font-weight: 550 749;
+  src:
+    local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'),
+    local('LiberationSans-Bold'), local('Helvetica Bold');
+  size-adjust: 99%;
+  ascent-override: 108.08%;
+  descent-override: 30.3%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Manrope Fallback';
+  font-weight: 750 1000;
+  src:
+    local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'),
+    local('LiberationSans-Bold'), local('Helvetica Bold');
+  size-adjust: 88.6%;
+  ascent-override: 120.77%;
+  descent-override: 33.86%;
+  line-gap-override: 0%;
+}
+
 @theme {
   --color-primary-dark: #002147;
   --color-primary-dark-800: #003669;
@@ -25,8 +67,8 @@
   --container-page: 1320px;
 
   /* Uma única família para títulos e corpo; o peso e o tracking fazem a hierarquia. */
-  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Manrope', 'Manrope Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Manrope', 'Manrope Fallback', ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
