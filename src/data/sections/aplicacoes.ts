@@ -1,9 +1,11 @@
 /**
  * Dados da seção "Aplicações" (biblioteca B2, fase: prova).
  *
- * 4 cards-botão com foto 4:3 e cabeçalho centrado. O card inteiro é o CTA.
+ * 4 cards-botão com foto, ícone verde e cabeçalho centrado sobre fundo escuro.
+ * O card inteiro é o CTA. As fotos foram recortadas do layout de referência.
  */
 import type { Photo } from '@data/types'
+import type { IconName } from '@data/icons'
 
 import app1 from '@assets/aplicacoes/aplicacao-1.png'
 import app2 from '@assets/aplicacoes/aplicacao-2.png'
@@ -14,6 +16,7 @@ export interface Application {
   id: string
   label: string
   description: string
+  icon: IconName
   photo: Photo
 }
 
@@ -26,25 +29,29 @@ export const applications = {
       id: 'motores',
       label: 'Motores Elétricos',
       description: 'Aplicações em motores e conjuntos rotativos.',
-      photo: { src: app1, alt: 'Motor elétrico industrial' },
+      icon: 'fan',
+      photo: { src: app1, alt: 'Motor elétrico industrial azul acoplado em linha de processo' },
     },
     {
       id: 'bombas',
       label: 'Bombas',
       description: 'Aplicações em bombas e sistemas industriais.',
-      photo: { src: app2, alt: 'Bomba centrífuga industrial' },
+      icon: 'cog',
+      photo: { src: app2, alt: 'Bombas centrífugas industriais em tubulação' },
     },
     {
       id: 'redutores',
       label: 'Redutores',
       description: 'Sistemas de transmissão e redução.',
-      photo: { src: app3, alt: 'Redutor de velocidade industrial' },
+      icon: 'cog',
+      photo: { src: app3, alt: 'Redutor de velocidade industrial acoplado a motor' },
     },
     {
       id: 'transportadores',
       label: 'Transportadores',
       description: 'Sistemas de movimentação e transporte industrial.',
-      photo: { src: app4, alt: 'Esteira transportadora de rolos' },
+      icon: 'conveyor',
+      photo: { src: app4, alt: 'Esteira transportadora curva em linha de produção' },
     },
   ],
 } as const satisfies {

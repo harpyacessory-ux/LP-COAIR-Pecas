@@ -2,6 +2,9 @@
 /**
  * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.4). Grid 1.05fr · 1fr: formulário (shortcode) à esquerda, texto à direita.
  * Mobile: texto antes do formulário. O formulário é sempre o shortcode, nunca um <form> próprio.
+ *
+ * Visual COAIR: a coluna do formulário fica vazia para o shortcode do WordPress. Fundo com
+ * feixe de linhas finas e desenho técnico à direita; destaques com ícone em quadradinho menta.
  */
 import Icon from './Icon.astro'
 import Eyebrow from './Eyebrow.astro'
@@ -9,42 +12,98 @@ import { quote, cta } from '../data/content'
 import { site } from '../data/site'
 
 const isDev = import.meta.env.DEV
+
+// Feixes de linhas finas em onda, no canto de cima e no de baixo do fundo
+const topWaves = Array.from({ length: 16 }, (_, i) => {
+  const y = 20 + i * 10
+  return `M0 ${y + 150}C180 ${y + 90} 330 ${y - 30} 640 ${y - 10}`
+})
+const bottomWaves = Array.from({ length: 14 }, (_, i) => {
+  const y = 300 + i * 9
+  return `M120 ${y + 110}C300 ${y + 80} 420 ${y - 40} 640 ${y - 60}`
+})
 ---
 
-<section id="cotacao" class="bg-neutral-gray-100 pt-8 pb-20">
+<section id="cotacao" class="relative isolate overflow-hidden bg-neutral-gray-100 pt-8 pb-20">
+  {/* Decoração do fundo: linhas finas verde-água e desenho técnico apagado, à direita */}
+  <svg
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden h-full w-[46%] lg:block"
+    viewBox="0 0 640 460"
+    preserveAspectRatio="xMaxYMid slice"
+    fill="none"
+  >
+    <defs>
+      <linearGradient id="cotacao-wave" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#1ef3da" stop-opacity="0"></stop>
+        <stop offset="0.55" stop-color="#1ef3da" stop-opacity="0.35"></stop>
+        <stop offset="1" stop-color="#3fdc5a" stop-opacity="0.55"></stop>
+      </linearGradient>
+    </defs>
+    <g stroke="url(#cotacao-wave)" stroke-width="0.8">
+      {topWaves.map((d) => (
+        <path d={d} />
+      ))}
+      {bottomWaves.map((d) => (
+        <path d={d} />
+      ))}
+    </g>
+    <g
+      stroke="#1b3a5c"
+      stroke-opacity="0.16"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+      transform="translate(470 70) scale(0.55)"
+    >
+      <path d="M60 110 90 80h290l-30 30"></path>
+      <rect x="60" y="110" width="290" height="160" rx="4"></rect>
+      <path d="M350 110 380 80v160l-30 30"></path>
+      <path d="M155 110v160M255 110v160"></path>
+      <rect x="175" y="135" width="44" height="32" rx="3"></rect>
+      <path d="M270 140h65M270 152h65M270 164h65M270 176h65M270 188h65M270 200h65M270 212h65M270 224h65"></path>
+      <path d="M60 270v12h290v-12"></path>
+      <rect x="420" y="40" width="64" height="242" rx="32"></rect>
+      <path d="M380 140h40M380 220h22v40h18M452 40V18M440 18h24"></path>
+    </g>
+  </svg>
+
   <div class="mx-auto max-w-page px-6 lg:px-10">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
       {/* Coluna do formulário */}
       <div class="order-2 w-full lg:order-1">
-        <slot name="shortcode">
-          {isDev ? (
-            <div
-              class="flex min-h-[520px] w-full flex-col gap-3 rounded-2xl border border-neutral-gray-200/70 bg-neutral-light p-6 shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]"
-              aria-label="Mock do formulário (só em desenvolvimento)"
-            >
-              <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
-                Mock · formulário
-              </span>
-              <div class="grid gap-3 sm:grid-cols-2">
-                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
-                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
-                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
-                <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
-                <div class="h-28 rounded border border-neutral-gray-200/70 bg-neutral-gray-100 sm:col-span-2" />
+        {/* O shortcode do WordPress desenha o formulário aqui. Em desenvolvimento o texto
+            do shortcode fica oculto, para o espaço aparecer vazio como no layout. */}
+        <div class:list={['min-h-[380px] w-full', isDev && 'invisible']}>
+          <slot name="shortcode">
+            {isDev ? (
+              <div
+                class="flex min-h-[520px] w-full flex-col gap-3 rounded-2xl border border-neutral-gray-200/70 bg-neutral-light p-6 shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]"
+                aria-label="Mock do formulário (só em desenvolvimento)"
+              >
+                <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
+                  Mock · formulário
+                </span>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                  <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                  <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                  <div class="h-11 rounded border border-neutral-gray-200/70 bg-neutral-gray-100" />
+                  <div class="h-28 rounded border border-neutral-gray-200/70 bg-neutral-gray-100 sm:col-span-2" />
+                </div>
+                <div class="mt-auto h-12 w-full rounded bg-accent-orange/80 sm:w-48" />
               </div>
-              <div class="mt-auto h-12 w-full rounded bg-accent-orange/80 sm:w-48" />
-            </div>
-          ) : (
-            <div class="flex min-h-[520px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-primary-dark/25 bg-neutral-light p-8 text-center shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]">
-              <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
-                Espaço reservado
-              </span>
-              <p class="font-display text-lg font-bold text-ink">
-                Shortcode — formulário de cotação
-              </p>
-            </div>
-          )}
-        </slot>
+            ) : (
+              <div class="flex min-h-[520px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-primary-dark/25 bg-neutral-light p-8 text-center shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)]">
+                <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-accent-orange uppercase">
+                  Espaço reservado
+                </span>
+                <p class="font-display text-lg font-bold text-ink">
+                  Shortcode — formulário de cotação
+                </p>
+              </div>
+            )}
+          </slot>
+        </div>
 
         {/* Nota de LGPD */}
         <p class="mt-3 font-sans text-[11px] leading-relaxed text-ink-soft/80">
@@ -91,11 +150,15 @@ const isDev = import.meta.env.DEV
           </button>
         </div>
 
-        <ul class="mt-7 flex flex-wrap gap-x-6 gap-y-2.5">
+        <ul class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4">
           {quote.trust.map((item) => (
-            <li class="flex items-center gap-2 font-sans text-[13px] font-medium text-ink">
-              <Icon name={item.icon} class="size-4 shrink-0 text-accent-orange" />
-              {item.label}
+            <li class="trust-item flex items-center gap-3">
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-[10px] bg-[#e4f8ef] text-accent-orange">
+                <Icon name={item.icon} class="size-6 [stroke-width:1.8]" />
+              </span>
+              <span class="font-sans text-[14.5px] leading-snug font-medium whitespace-pre-line text-ink">
+                {item.label}
+              </span>
             </li>
           ))}
         </ul>
@@ -103,3 +166,13 @@ const isDev = import.meta.env.DEV
     </div>
   </div>
 </section>
+
+<style>
+  /* Divisórias finas entre os destaques (a partir de tablet) */
+  @media (width >= 40rem) {
+    .trust-item + .trust-item {
+      padding-left: 1.25rem;
+      border-left: 1px solid rgb(160 160 160 / 0.35);
+    }
+  }
+</style>

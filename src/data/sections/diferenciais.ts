@@ -8,7 +8,7 @@ import type { IconName } from '@data/icons'
 import type { Photo } from '@data/types'
 import { site } from '@data/site'
 
-import cenario from '@assets/diferenciais/cenario.jpg'
+import cenario from '@assets/diferenciais/cenario.png'
 import pessoa from '@assets/diferenciais/pessoa.png'
 
 export interface Reason {
@@ -24,7 +24,7 @@ export const why = {
   text: `Peças da linha HPP® e componentes multimarcas para compressores de parafuso, com engenharia e laboratório internos. A ${site.brandShort} ajuda a identificar a peça certa para manter o seu ar comprimido em operação.`,
   scene: {
     src: cenario,
-    alt: 'Peças para compressor de parafuso sobre bancada técnica',
+    alt: 'Sala de compressores industriais com tanques azuis e tubulações',
   },
   person: {
     src: pessoa,
@@ -39,7 +39,7 @@ export const why = {
     {
       icon: 'layers',
       title: 'Compatibilidade multimarcas',
-      description: 'Componentes para diferentes marcas e modelos de compressor.',
+      description: 'Componentes para diferentes marcas e modelos de compressores.',
     },
     {
       icon: 'search',

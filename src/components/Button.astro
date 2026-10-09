@@ -11,7 +11,7 @@ import type { IconName } from '../data/icons'
 interface Props {
   /** Identificador de rastreamento, ex.: "hero-primary", "linhas-esferas". */
   cta: string
-  variant?: 'primary' | 'outline-light' | 'outline-dark'
+  variant?: 'primary' | 'outline-light' | 'outline-dark' | 'brand' | 'link-light' | 'brand-glow'
   type?: 'button' | 'submit'
   icon?: boolean
   iconName?: IconName
@@ -30,19 +30,34 @@ const {
 } = Astro.props
 
 const base =
-  'inline-flex items-center justify-center gap-2.5 px-6 py-3.5 font-sans text-[15px] font-semibold transition-colors duration-200'
+  'inline-flex items-center justify-center gap-2.5 font-sans text-[15px] font-semibold transition-colors duration-200'
 
 const variants = {
   primary: 'bg-accent-orange text-neutral-light hover:bg-accent-orange-dark',
   'outline-light': 'border border-neutral-light/35 text-neutral-light hover:bg-neutral-light/10',
   'outline-dark': 'border border-ink/25 text-ink hover:bg-ink/5',
+  /* Verde COAIR, em pílula (hero). */
+  brand:
+    'rounded-full bg-brand-green px-8 text-primary-dark-900 shadow-[0_10px_30px_-10px_rgb(63_220_90_/_0.6)] hover:brightness-110',
+  /* Link sublinhado em verde, sobre fundo escuro (hero). */
+  'link-light': 'border-b-2 border-brand-green px-0 py-2 text-neutral-light hover:text-brand-green',
+  /* Verde COAIR com brilho no topo, cantos levemente arredondados (painel de identificação). */
+  'brand-glow':
+    'rounded-lg bg-[radial-gradient(120%_160%_at_50%_0%,#a3f58f_0%,var(--color-brand-green)_55%,#2cc84b_100%)] px-7 text-primary-dark-900 shadow-[0_14px_30px_-14px_rgb(63_220_90/0.9)] hover:brightness-105',
 }
+
+const padding =
+  variant === 'link-light'
+    ? ''
+    : variant === 'brand' || variant === 'brand-glow'
+      ? 'py-3.5'
+      : 'px-6 py-3.5'
 ---
 
 <button
   type={type}
   data-cta={cta}
-  class:list={['btn-slave-whats', base, variants[variant], className]}
+  class:list={['btn-slave-whats', base, padding, variants[variant], className]}
 >
   {icon && iconPosition === 'left' && <Icon name={iconName} class="size-4 shrink-0" />}
   <span>

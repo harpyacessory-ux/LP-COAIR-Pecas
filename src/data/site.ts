@@ -14,7 +14,13 @@ export const site = {
   /** URL absoluta da página no ar (entrada 10). Usada em canonical e og:url. */
   url: 'https://www.coair.com.br/pecas/compressores',
   /** Endereço completo com CEP (entrada 9). Footer e JSON-LD. */
-  address: 'Rua Exemplo, 100 - Centro, Cidade - UF, 00000-000',
+  address: 'São Paulo - SP',
+  /** E-mail comercial exibido no rodapé (veio do layout de referência; confirmar com o cliente). */
+  email: 'comercial@coair.com.br',
+  /** Cidade e UF exibidas no rodapé (o endereço completo continua em `address`, para o JSON-LD). */
+  city: 'São Paulo - SP',
+  /** Página da empresa no LinkedIn. Vazio esconde o ícone do rodapé. */
+  linkedin: '',
   /** Link da política de privacidade do cliente (entrada 10). Vazio esconde o link, mas a nota de LGPD continua. */
   privacyUrl: '',
   /** Versão do padrão B2 que esta LP segue. Não editar manualmente; vem do template. */

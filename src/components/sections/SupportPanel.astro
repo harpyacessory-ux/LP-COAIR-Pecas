@@ -1,9 +1,11 @@
 ---
 /**
- * Painel de apoio à identificação — fase "apoio" da biblioteca B2.
+ * Painel de apoio à identificação — fase "apoio" da biblioteca B2, no visual COAIR.
  *
  * Painel navy dentro de uma seção clara: é uma das duas seções que carregam bloco
- * navy (`carriesNavy`), o respiro escuro da primeira metade da página.
+ * navy (`carriesNavy`), o respiro escuro da primeira metade da página. Cantos com
+ * acento verde, desenho técnico apagado ao fundo, destaque verde no título, CTA verde
+ * e os 6 dados em caixas separadas.
  */
 import Section from '@components/Section.astro'
 import Icon from '@components/Icon.astro'
@@ -16,152 +18,164 @@ import { supportPanel } from '@data/sections/identificar'
 type Props = SectionProps
 
 const { tone, rhythm } = Astro.props
+
+// Divide o H2 para pintar o trecho de destaque sem duplicar o texto nos dados
+const [titleBefore, ...titleRest] = supportPanel.title.split(supportPanel.highlight)
+const titleAfter = titleRest.join(supportPanel.highlight)
+const hasHighlight = titleRest.length > 0
 ---
 
-<Section id="identificar" tone={tone} rhythm={rhythm}>
-  <div class="navy-premium tech-corners relative overflow-hidden rounded-2xl border border-white/12 p-6 shadow-[0_14px_32px_-26px_rgba(0,24,48,0.5)] sm:p-8 lg:px-10 lg:py-9">
-    <span aria-hidden="true" class="blueprint-grid pointer-events-none absolute inset-0"></span>
-    <span
-      aria-hidden="true"
-      class="pointer-events-none absolute -top-24 -right-20 size-72 rounded-full bg-accent-orange/15 blur-3xl"
-    ></span>
+<Section id="identificar" tone={tone} rhythm={rhythm} container={false} class="relative isolate">
+  {/* Visual COAIR: o cinza-claro da vitrine continua por trás do painel */}
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10 bg-neutral-gray-100"
+  ></div>
 
-    <div class="relative">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-        <div class="max-w-2xl">
-          <Eyebrow tone="light">{supportPanel.eyebrow}</Eyebrow>
-          <h2 class="mt-3 font-display text-3xl leading-tight font-extrabold text-neutral-light sm:text-4xl">
-            {supportPanel.title}
-          </h2>
-          <p class="mt-3 font-sans text-[15px] leading-relaxed text-neutral-light/70">
-            {supportPanel.text}
-          </p>
+  {/* Um pouco mais largo que a grade de produtos, como no layout de referência */}
+  <div class="mx-auto max-w-[1212px] px-6 lg:px-10">
+    <div class="support-panel navy-premium relative overflow-hidden rounded-2xl border border-white/10 p-6 shadow-[0_24px_48px_-30px_rgba(0,24,48,0.7)] sm:p-8 lg:px-8 lg:py-8">
+      {/* Desenho técnico de compressor, bem apagado, atrás do CTA */}
+      <svg
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62%] text-white/[0.09] [mask-image:linear-gradient(to_right,transparent,black_40%)] lg:block"
+        viewBox="0 0 520 300"
+        preserveAspectRatio="xMaxYMid meet"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      >
+        <path d="M60 110 90 80h290l-30 30"></path>
+        <rect x="60" y="110" width="290" height="160" rx="4"></rect>
+        <path d="M350 110 380 80v160l-30 30"></path>
+        <path d="M155 110v160M255 110v160"></path>
+        <rect x="175" y="135" width="44" height="32" rx="3"></rect>
+        <path d="M270 140h65M270 152h65M270 164h65M270 176h65M270 188h65M270 200h65M270 212h65M270 224h65"></path>
+        <path d="M60 270v12h290v-12"></path>
+        <rect x="420" y="40" width="64" height="242" rx="32"></rect>
+        <path d="M380 140h40M380 220h22v40h18M452 40V18M440 18h24"></path>
+        <path d="M0 290h520"></path>
+      </svg>
+
+      <div class="relative">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <div class="max-w-2xl">
+            <Eyebrow tone="light" accent="green" shape="dash">
+              {supportPanel.eyebrow}
+            </Eyebrow>
+            <h2 class="mt-3 font-display text-3xl leading-tight font-extrabold text-neutral-light sm:text-[34px]">
+              {hasHighlight ? (
+                <>
+                  {titleBefore}
+                  <span class="support-highlight">{supportPanel.highlight}</span>
+                  {titleAfter}
+                </>
+              ) : (
+                supportPanel.title
+              )}
+            </h2>
+            <p class="mt-2 font-sans text-[15px] leading-relaxed text-neutral-light/80">
+              {supportPanel.text}
+            </p>
+          </div>
+
+          <div class="flex flex-col items-stretch gap-3 lg:shrink-0 lg:items-center">
+            <Button cta="identificar-cta" variant="brand-glow" class="w-full lg:w-auto">
+              {cta.secondary}
+            </Button>
+            <span class="flex items-center justify-center gap-2 font-sans text-[13px] text-neutral-light/85">
+              <Icon name="headset" class="size-[18px] shrink-0 text-neutral-light" />
+              {supportPanel.microcopy}
+            </span>
+          </div>
         </div>
 
-        <div class="flex flex-col items-stretch gap-2.5 lg:shrink-0 lg:items-end">
-          <Button
-            cta="identificar-cta"
-            variant="primary"
-            class="w-full shadow-[0_14px_30px_-12px_rgba(255,107,0,0.85)] lg:w-auto"
-          >
-            {cta.secondary}
-          </Button>
-          <span class="flex items-center justify-center gap-2 font-sans text-xs text-neutral-light/60 lg:justify-end">
-            <Icon name="shield" class="size-3.5 shrink-0 text-accent-orange" />
-            {supportPanel.microcopy}
-          </span>
-        </div>
+        <ul class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          {supportPanel.items.map((item) => (
+            <li class="support-item flex items-center gap-2.5 rounded-lg border border-[#5d85b0]/45 bg-white/[0.03] px-2.5 py-2">
+              <span class="support-badge flex size-9 shrink-0 items-center justify-center rounded-full border border-white/45 text-neutral-light">
+                <Icon name={item.icon} class="size-[18px]" />
+              </span>
+              <span class="flex min-w-0 flex-col gap-0.5">
+                <span class="font-sans text-[12.5px] leading-tight font-bold text-neutral-light">
+                  {item.label}
+                </span>
+                <span class="font-sans text-[11px] leading-tight tracking-[-0.01em] text-neutral-light/75">
+                  {item.hint}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <ul class="support-strip mt-7 grid grid-cols-2 overflow-hidden rounded-xl border border-white/12 sm:grid-cols-3 lg:grid-cols-6">
-        {supportPanel.items.map((item) => (
-          <li class="support-item flex items-center gap-3 px-4 py-3.5 sm:px-5 lg:gap-2.5 lg:px-3.5">
-            <span class="support-badge glass-badge relative flex size-11 shrink-0 items-center justify-center rounded-full text-neutral-light">
-              <Icon name={item.icon} class="size-[18px]" />
-            </span>
-            <span class="flex min-w-0 flex-col gap-0.5">
-              <span class="font-sans text-[13px] leading-none font-bold text-neutral-light">
-                {item.label}
-              </span>
-              <span class="font-sans text-[11px] leading-snug text-neutral-light/55">
-                {item.hint}
-              </span>
-            </span>
-          </li>
-        ))}
-      </ul>
     </div>
   </div>
 </Section>
 
 <style>
-  .support-strip {
-    background-color: rgb(255 255 255 / 0.04);
+  /* Acentos verdes nos cantos superior esquerdo e inferior direito, seguindo a curva. */
+  .support-panel::before,
+  .support-panel::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 56px;
+    height: 48px;
+    border: 0 solid var(--color-brand-green);
+    pointer-events: none;
+  }
+
+  .support-panel::before {
+    top: 0;
+    left: 0;
+    border-top-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 15px;
+    mask-image: linear-gradient(135deg, #000 45%, transparent 85%);
+  }
+
+  .support-panel::after {
+    right: 0;
+    bottom: 0;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-bottom-right-radius: 15px;
+    mask-image: linear-gradient(315deg, #000 45%, transparent 85%);
+  }
+
+  .support-highlight {
+    background: linear-gradient(90deg, #a6f08f, var(--color-brand-green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .support-item {
-    border-right: 1px solid rgb(255 255 255 / 0.1);
-    border-bottom: 1px solid rgb(255 255 255 / 0.1);
-    transition: background-color 260ms ease;
+    transition:
+      background-color 260ms ease,
+      border-color 260ms ease;
   }
 
   .support-item:hover {
-    background-color: rgb(255 255 255 / 0.05);
-  }
-
-  /* Remove a divisória da última coluna / última linha em cada breakpoint */
-  .support-item:nth-child(2n) {
-    border-right: 0;
-  }
-
-  .support-item:nth-last-child(-n + 2) {
-    border-bottom: 0;
-  }
-
-  @media (width >= 40rem) {
-    .support-item:nth-child(2n) {
-      border-right: 1px solid rgb(255 255 255 / 0.1);
-    }
-
-    .support-item:nth-child(3n) {
-      border-right: 0;
-    }
-
-    .support-item:nth-last-child(-n + 3) {
-      border-bottom: 0;
-    }
-  }
-
-  @media (width >= 64rem) {
-    .support-item {
-      border-bottom: 0;
-    }
-
-    .support-item:nth-child(3n) {
-      border-right: 1px solid rgb(255 255 255 / 0.1);
-    }
-
-    .support-item:last-child {
-      border-right: 0;
-    }
+    border-color: rgb(63 220 90 / 0.55);
+    background-color: rgb(255 255 255 / 0.06);
   }
 
   .support-badge {
     transition:
       transform 260ms ease,
-      border-color 260ms ease,
-      box-shadow 260ms ease;
-  }
-
-  /* Anel laranja que surge no hover */
-  .support-badge::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 9999px;
-    border: 1px solid rgb(255 107 0 / 0.55);
-    opacity: 0;
-    transform: scale(0.88);
-    transition:
-      opacity 260ms ease,
-      transform 260ms ease;
-    pointer-events: none;
+      border-color 260ms ease;
   }
 
   .support-item:hover .support-badge {
     transform: translateY(-2px);
-    border-color: rgb(255 107 0 / 0.6);
-  }
-
-  .support-item:hover .support-badge::after {
-    opacity: 1;
-    transform: scale(1);
+    border-color: rgb(63 220 90 / 0.8);
   }
 
   @media (prefers-reduced-motion: reduce) {
     .support-item,
-    .support-badge,
-    .support-badge::after {
+    .support-badge {
       transition: none;
     }
 

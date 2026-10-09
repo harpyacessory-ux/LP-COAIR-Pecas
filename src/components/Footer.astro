@@ -1,36 +1,194 @@
 ---
 /**
- * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.5). Uma linha: copyright · endereço · crédito da B2.
- * Sem menu, redes, telefone, e-mail, logo ou formulário.
+ * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.5), no visual COAIR: além da linha de copyright e do
+ * crédito da B2, o rodapé traz a logo, a frase da marca, os contatos e o CTA de cotação, como
+ * no layout de referência do cliente.
  */
+import { Image } from 'astro:assets'
+import logo from '../assets/LOGO.png'
 import Icon from './Icon.astro'
-import { site } from '../data/site'
+import { site, whatsapp } from '../data/site'
 import { footer } from '../data/content'
 
 const year = new Date().getFullYear()
+
+const labelClass = 'font-sans text-[12px] font-semibold tracking-[0.25em] text-[#9fb6d3] uppercase'
+const socialClass =
+  'flex size-10 items-center justify-center rounded-full border border-[#508cdc]/55 text-neutral-light transition-colors duration-200 hover:border-brand-green hover:text-brand-green'
 ---
 
-<footer class="navy-premium border-t border-white/15">
-  <div class="mx-auto flex max-w-page flex-col items-center gap-3 px-6 py-6 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-10 lg:text-left">
-    <p class="shrink-0 font-sans text-xs text-neutral-light/55">
-      © {year} {site.brand}. Todos os direitos reservados.
-    </p>
+{/* Cantos de cima arredondados sobre o cinza da seção de cotação */}
+<div class="bg-neutral-gray-100">
+  <div class="overflow-hidden rounded-t-3xl lg:rounded-t-[40px]">
+    <footer class="navy-premium border-t border-white/15">
+      <div class="relative overflow-hidden">
+        {/* Linha verde no topo, com um trecho laranja à direita */}
+        <span aria-hidden="true" class="footer-line absolute inset-x-0 top-0 h-1"></span>
 
-    <address class="flex items-center gap-2 font-sans text-xs text-neutral-light/70 not-italic lg:whitespace-nowrap">
-      <Icon name="map-pin" class="size-3.5 shrink-0 text-accent-orange" />
-      <span>{site.address}</span>
-    </address>
+        {/* Malha de pontos em onda e desenho técnico apagados, à direita */}
+        <svg
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[42%] [mask-image:linear-gradient(to_right,transparent,black_45%)] lg:block"
+          viewBox="0 0 560 220"
+          preserveAspectRatio="xMaxYMid slice"
+          fill="none"
+        >
+          <g
+            stroke="#3b82e0"
+            stroke-opacity="0.45"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-dasharray="0.1 6"
+          >
+            {Array.from({ length: 12 }, (_, i) => (
+              <path
+                d={`M0 ${150 + i * 5}C140 ${120 + i * 9} 260 ${20 + i * 12} 560 ${30 + i * 8}`}
+              />
+            ))}
+          </g>
+          <g
+            stroke="#3b82e0"
+            stroke-opacity="0.4"
+            stroke-width="1.6"
+            stroke-linejoin="round"
+            transform="translate(390 30) scale(0.42)"
+          >
+            <path d="M60 110 90 80h290l-30 30"></path>
+            <rect x="60" y="110" width="290" height="160" rx="4"></rect>
+            <path d="M350 110 380 80v160l-30 30"></path>
+            <path d="M155 110v160M255 110v160"></path>
+            <rect x="175" y="135" width="44" height="32" rx="3"></rect>
+            <path d="M60 270v12h290v-12"></path>
+            <rect x="420" y="40" width="64" height="242" rx="32"></rect>
+            <path d="M380 140h40M380 220h22v40h18"></path>
+          </g>
+        </svg>
 
-    <p class="shrink-0 font-sans text-xs text-neutral-light/55">
-      Desenvolvido por{' '}
-      <a
-        href={footer.credit.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="font-semibold text-neutral-light/80 transition-colors hover:text-accent-orange"
-      >
-        {footer.credit.label}
-      </a>
-    </p>
+        <div class="relative mx-auto max-w-page px-6 lg:px-10">
+          <div class="grid gap-8 py-10 md:grid-cols-2 xl:flex xl:items-center xl:gap-10">
+            {/* Marca */}
+            <div class="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6 md:col-span-2 xl:col-span-1">
+              <Image
+                src={logo}
+                alt={site.brand}
+                width={456}
+                height={152}
+                format="webp"
+                loading="lazy"
+                decoding="async"
+                class="h-16 w-auto lg:h-[76px]"
+              />
+              <span aria-hidden="true" class="footer-divider hidden h-20 w-px sm:block"></span>
+              <div class="max-w-[15rem]">
+                <p class="font-sans text-[15px] leading-snug text-neutral-light/80">
+                  {footer.tagline}
+                </p>
+                <span
+                  aria-hidden="true"
+                  class="mt-3 block h-[3px] w-10 rounded-full bg-accent-orange"
+                ></span>
+              </div>
+            </div>
+
+            <span aria-hidden="true" class="footer-divider hidden h-24 w-px xl:block"></span>
+
+            {/* Atendimento */}
+            <address class="flex flex-col gap-3 not-italic">
+              <span class={labelClass}>{footer.contactLabel}</span>
+              <a
+                href={`mailto:${site.email}`}
+                class="flex items-center gap-3 font-sans text-base text-neutral-light transition-colors hover:text-brand-green"
+              >
+                <Icon name="mail" class="size-5 shrink-0 text-brand-green" />
+                {site.email}
+              </a>
+              <span class="flex items-center gap-3 font-sans text-base text-neutral-light">
+                <Icon name="map-pin" class="size-5 shrink-0 text-brand-green" />
+                {site.city}
+              </span>
+            </address>
+
+            <span aria-hidden="true" class="footer-divider hidden h-24 w-px xl:block"></span>
+
+            {/* Cotação */}
+            <div class="flex flex-col gap-3">
+              <span class={labelClass}>{footer.quoteLabel}</span>
+              <button
+                type="button"
+                data-cta="footer-cta"
+                class="btn-slave-whats inline-flex items-center justify-center gap-3 rounded-md bg-brand-green px-7 py-3 font-sans text-base font-bold text-primary-dark-900 transition-[filter] duration-200 hover:brightness-110"
+              >
+                <Icon name="file-text" class="size-5 shrink-0" />
+                {footer.quoteButton}
+              </button>
+              <div class="flex items-center gap-3">
+                {whatsapp && (
+                  <a
+                    href={`https://wa.me/${whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cta="footer-whatsapp"
+                    aria-label="Conversar pelo WhatsApp"
+                    class={socialClass}
+                  >
+                    <Icon name="whatsapp" class="size-5" />
+                  </a>
+                )}
+                {site.linkedin && (
+                  <a
+                    href={site.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${site.brandShort} no LinkedIn`}
+                    class={socialClass}
+                  >
+                    <Icon name="linkedin" class="size-5" />
+                  </a>
+                )}
+                <a
+                  href={`mailto:${site.email}`}
+                  aria-label={`Enviar e-mail para ${site.email}`}
+                  class={socialClass}
+                >
+                  <Icon name="mail" class="size-5" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 border-t border-white/10 py-5 text-center sm:flex-row sm:justify-between sm:text-left">
+            <p class="font-sans text-[13px] text-neutral-light/70">
+              © {year} {site.brand}. Todos os direitos reservados.
+            </p>
+            <p class="font-sans text-[13px] text-neutral-light/70">
+              Desenvolvido por{' '}
+              <a
+                href={footer.credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-bold text-neutral-light transition-colors hover:text-brand-green"
+              >
+                {footer.credit.label}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
-</footer>
+</div>
+
+<style>
+  .footer-line {
+    background: linear-gradient(
+      90deg,
+      var(--color-brand-green) 0 81%,
+      var(--color-accent-orange) 81% 85%,
+      var(--color-brand-green) 85%
+    );
+  }
+
+  .footer-divider {
+    background: linear-gradient(to bottom, transparent, rgb(80 140 220 / 0.45), transparent);
+  }
+</style>

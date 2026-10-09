@@ -46,22 +46,30 @@ export const header = {
 /* -------------------------------------------------------------------- hero */
 
 export const hero = {
-  eyebrow: 'Compressores de parafuso',
-  title: `${site.product} para ${site.context}`,
-  text: 'Peças e componentes para compressores de parafuso, com suporte técnico para identificar a peça certa. Atendimento B2B no estado de São Paulo.',
+  eyebrow: 'Soluções em ar comprimido',
+  title: 'Peças para compressores industriais com ar comprimido confiável.',
+  /** Trecho do título destacado em verde (precisa existir dentro de `title`). */
+  highlight: 'confiável',
+  text: 'Compressores, peças e manutenção técnica para manter sua operação em movimento.',
+  /** Rótulos dos botões do hero (o vocabulário `cta` continua valendo no resto da página). */
+  ctaPrimary: 'Solicite uma cotação',
+  ctaSecondary: 'Fale com um especialista',
   banner: {
     src: heroBg,
-    alt: 'Peças para compressor de parafuso em destaque sobre fundo técnico',
+    alt: 'Compressor de ar COAIR em ambiente industrial',
   },
   points: [
-    { icon: 'layers', line1: 'Componentes', line2: 'multimarcas' },
-    { icon: 'badge-check', line1: 'Peças da', line2: 'linha HPP®' },
-    { icon: 'wrench', line1: 'Suporte técnico', line2: 'na cotação' },
+    { icon: 'shield', line1: 'Suporte técnico', line2: 'especializado' },
+    { icon: 'cog', line1: 'Peças multimarcas', line2: 'à pronta entrega' },
+    { icon: 'trend-up', line1: 'Soluções para', line2: 'maior eficiência' },
   ],
 } as const satisfies {
   eyebrow: string
   title: string
+  highlight: string
   text: string
+  ctaPrimary: string
+  ctaSecondary: string
   banner: Photo
   points: readonly [HeroPoint, HeroPoint, HeroPoint]
 }
@@ -72,9 +80,10 @@ export const quote = {
   eyebrow: 'Solicite sua cotação',
   title: `Fale com quem entende de ${site.product.toLowerCase()}.`,
   text: 'Informe marca, modelo e código da peça: nossa equipe técnica identifica e cota o item certo, com atendimento B2B no estado de São Paulo. Preencha o formulário ou fale direto conosco pelo WhatsApp.',
+  /** O `\n` marca a quebra de linha de cada destaque. */
   trust: [
-    { icon: 'map-pin', label: 'Atendimento em São Paulo' },
-    { icon: 'users', label: 'Equipe Técnica Interna' },
+    { icon: 'map-pin', label: 'Atendimento\nem São Paulo' },
+    { icon: 'users', label: 'Equipe Técnica\nInterna' },
     { icon: 'factory', label: 'Atendimento B2B' },
   ],
   /** Nota de LGPD exibida abaixo do formulário. */
@@ -90,5 +99,10 @@ export const quote = {
 /* ------------------------------------------------------------------ footer */
 
 export const footer = {
+  /** Frase da marca ao lado da logo. */
+  tagline: 'Peças, soluções e suporte técnico para a máxima performance do seu ar comprimido',
+  contactLabel: 'Atendimento',
+  quoteLabel: 'Solicite sua cotação',
+  quoteButton: 'Solicitar cotação',
   credit: { label: 'B2 Marketing Industrial', url: 'https://b2marketingindustrial.com.br' },
 } as const

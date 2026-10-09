@@ -22,30 +22,30 @@ const { tone, rhythm } = Astro.props
 
 <Section id="diferenciais" tone={tone} rhythm={rhythm} container={false} class="relative">
   {/* Bloco navy em largura total */}
-  <div class="why-hero navy-premium relative overflow-hidden">
+  <div class="why-hero navy-premium relative overflow-hidden rounded-3xl lg:rounded-[40px]">
     <span aria-hidden="true" class="why-grid pointer-events-none absolute inset-0"></span>
 
     {/* Foto de cenário sangrando à direita (desktop) e no topo (mobile) */}
-    <div class="absolute inset-y-0 right-0 w-full lg:w-[52%] xl:w-1/2">
+    <div class="absolute inset-y-0 right-0 w-full lg:w-[82%]">
       <Picture
         src={why.scene.src}
         alt={why.scene.alt}
-        widths={[640, 1024, 1600]}
-        sizes="(min-width: 1024px) 52vw, 100vw"
+        widths={[640, 1024, 1672]}
+        sizes="(min-width: 1024px) 82vw, 100vw"
         formats={['avif', 'webp']}
         fallbackFormat="webp"
         loading="lazy"
         decoding="async"
-        class="absolute inset-0 h-full w-full object-cover object-[40%_center]"
+        class="absolute inset-0 h-full w-full object-cover object-[100%_50%]"
         pictureAttributes={{ class: 'absolute inset-0 h-full w-full' }}
       />
       <span
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-dark via-primary-dark/20 to-transparent lg:bg-gradient-to-r lg:from-primary-dark lg:via-primary-dark/25 lg:to-transparent"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-primary-dark)_0%,var(--color-primary-dark)_42%,rgb(0_33_71/0.25)_62%,rgb(0_33_71/0.55)_100%)] lg:bg-[linear-gradient(to_right,var(--color-primary-dark)_0%,var(--color-primary-dark)_28%,transparent_52%)]"
       ></span>
       <span
         aria-hidden="true"
-        class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-2/5 bg-gradient-to-t from-primary-dark-900 to-transparent lg:block"
+        class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-primary-dark-900/50 to-transparent lg:block"
       ></span>
     </div>
 
@@ -86,7 +86,8 @@ const { tone, rhythm } = Astro.props
         src={why.person.src}
         alt={why.person.alt}
         format="webp"
-        width={1220}
+        widths={[480, 760, 1145]}
+        sizes="(min-width: 1024px) 480px, 90vw"
         loading="lazy"
         decoding="async"
         class="why-person"
@@ -107,16 +108,14 @@ const { tone, rhythm } = Astro.props
             class="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-accent-orange transition-transform duration-300 ease-out group-hover:scale-x-100"
           />
           <div class="flex items-center gap-2.5">
-            <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-neutral-gray-100 text-primary-dark-800 transition-colors duration-300 group-hover:bg-accent-orange/10 group-hover:text-accent-orange">
-              <Icon name={reason.icon} class="size-[18px]" />
+            <span class="icon-duo flex size-10 shrink-0 items-center justify-center rounded-xl bg-neutral-gray-100 text-primary-dark-800 transition-colors duration-300 group-hover:bg-accent-orange/10 group-hover:text-accent-orange">
+              <Icon name={reason.icon} class="size-7 [stroke-width:2]" />
             </span>
-            <h3 class="line-clamp-2 flex min-h-[2.5em] items-center font-display text-[14px] leading-[1.25] font-extrabold text-ink">
+            <h3 class="line-clamp-2 flex min-h-[2.5em] items-center font-display text-[15px] leading-[1.25] font-extrabold text-ink">
               {reason.title}
             </h3>
           </div>
-          <p class="line-clamp-2 min-h-[3.25em] font-sans text-[13px] leading-relaxed text-ink-soft">
-            {reason.description}
-          </p>
+          <p class="font-sans text-[13px] leading-relaxed text-ink-soft">{reason.description}</p>
         </li>
       ))}
     </ul>
@@ -175,11 +174,11 @@ const { tone, rhythm } = Astro.props
     }
     .why-people {
       position: absolute;
-      right: 2%;
-      bottom: 0;
-      width: 49%;
-      height: 100%;
-      max-height: 560px;
+      top: 4%;
+      bottom: -10%;
+      left: 40%;
+      width: 42%;
+      height: auto;
     }
   }
   @media (max-width: 389px) {

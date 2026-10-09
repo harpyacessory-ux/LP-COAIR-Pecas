@@ -20,6 +20,10 @@ interface Props {
   width?: 'xl' | '2xl' | '4xl'
   /** `light` = texto sobre navy. */
   tone?: 'dark' | 'light'
+  /** Cor do marcador do eyebrow: laranja do padrão ou verde COAIR. */
+  accent?: 'orange' | 'green'
+  /** Formato do marcador do eyebrow. */
+  shape?: 'square' | 'dash'
   /** Traço laranja entre H2 e parágrafo. */
   rule?: boolean
   class?: string
@@ -32,6 +36,8 @@ const {
   align = 'left',
   width = '2xl',
   tone = 'dark',
+  accent = 'orange',
+  shape = 'square',
   rule = false,
   class: className = '',
 } = Astro.props
@@ -43,7 +49,9 @@ const textColor = tone === 'light' ? 'text-neutral-light/75' : 'text-ink-soft'
 ---
 
 <div class:list={[widths[width], alignClass, className]}>
-  <Eyebrow tone={tone === 'light' ? 'light' : 'dark'}>{eyebrow}</Eyebrow>
+  <Eyebrow tone={tone === 'light' ? 'light' : 'dark'} accent={accent} shape={shape}>
+    {eyebrow}
+  </Eyebrow>
 
   <h2
     class:list={['mt-3 font-display text-3xl leading-tight font-extrabold sm:text-4xl', titleColor]}

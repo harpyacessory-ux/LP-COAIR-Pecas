@@ -8,6 +8,9 @@
  *   com grupos  → uma prateleira por grupo, com a logo (ou o nome) no cabeçalho,
  *                 em trilho horizontal no mobile e grade no desktop.
  *
+ * Visual COAIR: cards brancos com a foto sobre a sombra elíptica, ícone verde,
+ * nome e seta, num contêiner mais estreito que o padrão.
+ *
  * As duas invariantes do conteúdo são verificadas aqui, no build, porque o
  * `contract` do manifesto não expressa condição entre itens: descrição é tudo ou
  * nada, e todo item de vitrine agrupada aponta para um grupo existente.
@@ -66,138 +69,142 @@ for (const shelf of shelves) {
 }
 ---
 
-<Section id="vitrine" tone={tone} rhythm={rhythm}>
-  <SectionHeader
-    eyebrow={showcase.eyebrow}
-    title={showcase.title}
-    text={showcase.text}
-    width="2xl"
-  />
+<Section
+  id="vitrine"
+  tone={tone}
+  rhythm={rhythm}
+  container={false}
+  class="relative isolate overflow-hidden"
+>
+  {/* Visual COAIR: cinza-claro com faixas diagonais suaves no lugar do tom da composição */}
+  <div aria-hidden="true" class="vitrine-bg pointer-events-none absolute inset-0 -z-10"></div>
 
-  <div class="mt-9 flex flex-col gap-10">
-    {shelves.map((shelf) => (
-      <div data-showcase-shelf>
-        {shelf.group && (
-          <div class="flex items-center gap-4 border-b border-neutral-gray-200/70 pb-3">
-            <h3 class="flex min-w-0 items-center">
-              {shelf.group.logo ? (
-                <Image
-                  src={shelf.group.logo.src}
-                  alt={shelf.group.logo.alt}
-                  format="webp"
-                  width={220}
-                  loading="lazy"
-                  decoding="async"
-                  class="h-8 w-auto max-w-[120px] object-contain"
-                />
-              ) : (
-                <span class="font-display text-lg leading-snug font-extrabold text-ink">
-                  {shelf.group.label}
-                </span>
-              )}
-            </h3>
-            <span class="ml-auto shrink-0 font-sans text-[12px] font-semibold tracking-[0.16em] text-ink-soft uppercase">
-              {shelf.items.length} itens
-            </span>
-          </div>
-        )}
+  {/* Mais estreito que o contêiner padrão, como no layout de referência */}
+  <div class="mx-auto max-w-[1152px] px-6 lg:px-10">
+    <SectionHeader
+      eyebrow={showcase.eyebrow}
+      title={showcase.title}
+      text={showcase.text}
+      width="2xl"
+      accent="green"
+      shape="dash"
+    />
 
-        <ul
-          data-showcase-rail
-          class:list={[
-            'mt-5 gap-4 lg:gap-5',
-            railed
-              ? 'scroll-track -mx-6 flex snap-x snap-mandatory overflow-x-auto px-6 pb-3 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0'
-              : 'grid grid-cols-2 lg:grid-cols-4',
-          ]}
-        >
-          {shelf.items.map((item) => (
-            <li class:list={[railed && 'w-[78%] shrink-0 snap-start sm:w-[44%] lg:w-auto']}>
-              <button
-                type="button"
-                data-cta={`vitrine-${item.id}`}
-                class="btn-slave-whats showcase-card group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-neutral-gray-200/70 bg-neutral-light text-left shadow-[0_1px_2px_rgba(13,29,48,0.05)] transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-accent-orange/50 hover:shadow-[0_28px_56px_-28px_rgba(0,33,71,0.35)]"
-              >
-                <span
-                  aria-hidden="true"
-                  class="absolute inset-x-0 top-0 z-10 h-[3px] origin-left scale-x-0 bg-accent-orange transition-transform duration-300 ease-out group-hover:scale-x-100"
-                />
-
-                <span class="showcase-card__stage relative flex h-40 items-center justify-center overflow-hidden">
+    <div class="mt-7 flex flex-col gap-10">
+      {shelves.map((shelf) => (
+        <div data-showcase-shelf>
+          {shelf.group && (
+            <div class="flex items-center gap-4 border-b border-neutral-gray-200/70 pb-3">
+              <h3 class="flex min-w-0 items-center">
+                {shelf.group.logo ? (
                   <Image
-                    src={item.photo.src}
-                    alt={item.photo.alt}
+                    src={shelf.group.logo.src}
+                    alt={shelf.group.logo.alt}
                     format="webp"
-                    width={360}
+                    width={220}
                     loading="lazy"
                     decoding="async"
-                    class="relative z-[1] max-h-[7.75rem] w-auto max-w-[78%] object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.07]"
+                    class="h-8 w-auto max-w-[120px] object-contain"
                   />
-                </span>
+                ) : (
+                  <span class="font-display text-lg leading-snug font-extrabold text-ink">
+                    {shelf.group.label}
+                  </span>
+                )}
+              </h3>
+              <span class="ml-auto shrink-0 font-sans text-[12px] font-semibold tracking-[0.16em] text-ink-soft uppercase">
+                {shelf.items.length} itens
+              </span>
+            </div>
+          )}
 
-                <span class="flex flex-1 items-start justify-between gap-3 px-5 pt-4 pb-4">
-                  <span class="flex min-w-0 flex-col gap-1.5">
-                    <span class="font-display text-[15px] leading-snug font-extrabold text-ink">
-                      {item.title}
-                    </span>
-                    {showText && (
-                      <span class="font-sans text-[13px] leading-relaxed text-ink-soft">
-                        {item.description}
+          <ul
+            data-showcase-rail
+            class:list={[
+              'gap-3.5',
+              shelf.group && 'mt-5',
+              railed
+                ? 'scroll-track -mx-6 flex snap-x snap-mandatory overflow-x-auto px-6 pb-3 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0'
+                : 'grid grid-cols-2 lg:grid-cols-4',
+            ]}
+          >
+            {shelf.items.map((item) => (
+              <li class:list={[railed && 'w-[78%] shrink-0 snap-start sm:w-[44%] lg:w-auto']}>
+                <button
+                  type="button"
+                  data-cta={`vitrine-${item.id}`}
+                  class="btn-slave-whats showcase-card group relative flex h-full w-full flex-col overflow-hidden rounded-[10px] bg-neutral-light text-left shadow-[0_1px_2px_rgba(16,24,40,0.04),0_10px_24px_-14px_rgba(16,24,40,0.2)] transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_22px_40px_-20px_rgba(0,33,71,0.35)]"
+                >
+                  {/* A foto já traz o fundo branco e a sombra elíptica do card */}
+                  <span class="flex h-[100px] items-center justify-center overflow-hidden px-2 pt-1.5">
+                    <Image
+                      src={item.photo.src}
+                      alt={item.photo.alt}
+                      format="webp"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-auto max-h-full w-auto max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                    />
+                  </span>
+
+                  <span class="flex flex-1 items-center gap-2 px-3 pt-1.5 pb-3 sm:gap-2.5 sm:px-4">
+                    <Icon
+                      name={item.icon}
+                      class="size-[22px] shrink-0 text-brand-green-deep [stroke-width:2.1] sm:size-[26px]"
+                    />
+                    <span class="flex min-w-0 flex-1 flex-col gap-1">
+                      <span class="font-display text-[12.5px] leading-tight font-bold text-ink sm:text-[13px]">
+                        {item.title}
                       </span>
-                    )}
+                      {showText && (
+                        <span class="font-sans text-[12px] leading-relaxed text-ink-soft">
+                          {item.description}
+                        </span>
+                      )}
+                    </span>
+                    <span class="hidden size-[34px] shrink-0 items-center justify-center rounded-full sm:flex bg-brand-green/12 text-brand-green-deep transition-[background-color,color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-brand-green group-hover:text-neutral-light">
+                      <Icon name="arrow-right" class="size-4 [stroke-width:2.2]" />
+                    </span>
                   </span>
-                  <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-neutral-gray-100 text-primary-dark transition-[background-color,color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-accent-orange group-hover:text-neutral-light">
-                    <Icon name="arrow-right" class="size-3.5" />
-                  </span>
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        {railed && shelf.items.length > 1 && (
-          <div class="mt-3 flex items-center justify-center gap-3 lg:hidden">
-            <button
-              type="button"
-              data-rail-prev
-              aria-label={`Produto anterior de ${shelf.group?.label}`}
-              class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
-            >
-              <Icon name="chevron-right" class="size-4 rotate-180" />
-            </button>
-            <button
-              type="button"
-              data-rail-next
-              aria-label={`Próximo produto de ${shelf.group?.label}`}
-              class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-accent-orange hover:text-accent-orange"
-            >
-              <Icon name="chevron-right" class="size-4" />
-            </button>
-          </div>
-        )}
-      </div>
-    ))}
+          {railed && shelf.items.length > 1 && (
+            <div class="mt-3 flex items-center justify-center gap-3 lg:hidden">
+              <button
+                type="button"
+                data-rail-prev
+                aria-label={`Produto anterior de ${shelf.group?.label}`}
+                class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-brand-green hover:text-brand-green-deep"
+              >
+                <Icon name="chevron-right" class="size-4 rotate-180" />
+              </button>
+              <button
+                type="button"
+                data-rail-next
+                aria-label={`Próximo produto de ${shelf.group?.label}`}
+                class="flex size-10 items-center justify-center rounded-full border border-neutral-gray-200 bg-neutral-light text-primary-dark transition-colors hover:border-brand-green hover:text-brand-green-deep"
+              >
+                <Icon name="chevron-right" class="size-4" />
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
   </div>
 </Section>
 
 <style>
-  /* Mesmo palco claro dos cards de produto: gradiente suave + malha de pontos
-     que esmaece nas bordas. O `mix-blend-multiply` da foto come o fundo branco
-     das imagens de catálogo, então recorte e fundo branco convivem no grid. */
-  .showcase-card__stage {
-    background-image: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
-  }
-
-  .showcase-card__stage::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(0, 33, 71, 0.16) 1px, transparent 1.2px);
-    background-size: 18px 18px;
-    mask-image: radial-gradient(ellipse at center, transparent 32%, black 90%);
-    -webkit-mask-image: radial-gradient(ellipse at center, transparent 32%, black 90%);
-    opacity: 0.7;
-    pointer-events: none;
+  /* Cinza-claro da página com duas faixas de luz diagonais, bem suaves. */
+  .vitrine-bg {
+    background:
+      linear-gradient(118deg, transparent 58%, rgb(255 255 255 / 0.7) 63% 68%, transparent 73%),
+      linear-gradient(118deg, transparent 77%, rgb(255 255 255 / 0.55) 80% 83%, transparent 86%),
+      linear-gradient(118deg, rgb(255 255 255 / 0.6) 0 6%, transparent 12%),
+      var(--color-neutral-gray-100);
   }
 
   @media (prefers-reduced-motion: reduce) {

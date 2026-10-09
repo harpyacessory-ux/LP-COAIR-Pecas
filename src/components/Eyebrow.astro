@@ -2,21 +2,40 @@
 interface Props {
   tone?: 'light' | 'dark'
   marker?: boolean
+  /** Cor do quadradinho: laranja do padrão ou verde COAIR. */
+  accent?: 'orange' | 'green'
+  /** Formato do marcador: quadradinho (padrão) ou traço. */
+  shape?: 'square' | 'dash'
   class?: string
 }
 
-const { tone = 'dark', marker = true, class: className = '' } = Astro.props
+const {
+  tone = 'dark',
+  marker = true,
+  accent = 'orange',
+  shape = 'square',
+  class: className = '',
+} = Astro.props
 
 const toneClasses = tone === 'light' ? 'text-neutral-light/70' : 'text-ink-soft'
+/* O estilo COAIR (marcador verde) usa espaçamento largo entre as letras. */
+const trackingClass = accent === 'green' ? 'tracking-[0.3em]' : 'tracking-[0.16em]'
 ---
 
 <span
   class={`
     inline-flex items-center gap-2.5
-    font-sans text-[12px] font-semibold uppercase tracking-[0.16em]
-    ${toneClasses} ${className}
+    font-sans text-[12px] font-semibold uppercase
+    ${trackingClass} ${toneClasses} ${className}
   `}
 >
-  {marker && <span class="h-[6px] w-[6px] bg-accent-orange" />}
+  {marker && (
+    <span
+      class:list={[
+        shape === 'dash' ? 'h-1 w-5 rounded-full' : 'h-[6px] w-[6px]',
+        accent === 'green' ? 'bg-brand-green' : 'bg-accent-orange',
+      ]}
+    />
+  )}
   <slot />
 </span>

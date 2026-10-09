@@ -15,6 +15,12 @@
   --color-neutral-gray-200: #a0a0a0;
   --color-ink: #1b2733;
   --color-ink-soft: #44546a;
+  /* Verde da marca COAIR (logo). Usado no destaque do H1 do hero. */
+  --color-brand-green: #3fdc5a;
+  /* Verde mais fechado: ícones e setas sobre fundo branco. */
+  --color-brand-green-deep: #18b548;
+  /* Verde-água do contorno do botão do header. */
+  --color-brand-teal: #1ef3da;
 
   --container-page: 1320px;
 
@@ -24,13 +30,25 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* Altura do header fixo: o hero passa por baixo dele e as âncoras param logo abaixo. */
+:root {
+  --header-h: 4rem;
+}
+
+@media (width >= 64rem) {
+  :root {
+    --header-h: 72px;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-h);
   }
 
   body {
-    @apply bg-neutral-light font-sans text-ink antialiased;
+    @apply bg-neutral-gray-100 font-sans text-ink antialiased;
   }
 
   .font-display {
@@ -58,6 +76,11 @@
       var(--color-primary-dark) 50%,
       var(--color-primary-dark-900) 100%
     );
+}
+
+/* Ícones em dois tons: o traço marcado com .ic-accent fica verde. */
+.icon-duo .ic-accent {
+  stroke: var(--color-brand-green-deep);
 }
 
 /* Malha de blueprint esmaecida nas bordas, usada sobre navy. */

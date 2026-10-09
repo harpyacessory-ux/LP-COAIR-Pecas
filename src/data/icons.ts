@@ -4,12 +4,12 @@
  * O PROMPT-PADRAO-LP lista estas chaves como opções na entrevista.
  */
 export const iconPaths = {
-  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path class="ic-accent" d="m20 20-3.6-3.6"/>',
   'arrow-right': '<path d="M4 12h16"/><path d="m13 5 7 7-7 7"/>',
   'arrow-down': '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
-  layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path class="ic-accent" d="m3 13 9 5 9-5"/>',
   'badge-check':
-    '<path d="M12 3.5 14.4 5l2.8-.6 1.2 2.6 2.6 1.2-.6 2.8 1.6 2.4-1.6 2.4.6 2.8-2.6 1.2-1.2 2.6-2.8-.6L12 22.9l-2.4-1.6-2.8.6-1.2-2.6-2.6-1.2.6-2.8L2 12.4l1.6-2.4-.6-2.8 2.6-1.2L6.8 3.4l2.8.6L12 3.5Z"/><path d="m9 12.5 2 2 4-4.5"/>',
+    '<path d="M12 3.5 14.4 5l2.8-.6 1.2 2.6 2.6 1.2-.6 2.8 1.6 2.4-1.6 2.4.6 2.8-2.6 1.2-1.2 2.6-2.8-.6L12 22.9l-2.4-1.6-2.8.6-1.2-2.6-2.6-1.2.6-2.8L2 12.4l1.6-2.4-.6-2.8 2.6-1.2L6.8 3.4l2.8.6L12 3.5Z"/><path class="ic-accent" d="m9 12.5 2 2 4-4.5"/>',
   users:
     '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.7-3.4 3-5.2 5.5-5.2s4.8 1.8 5.5 5.2"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.6 14.6c2.2.3 3.9 1.9 4.5 4.9"/>',
   circle: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.6"/>',
@@ -29,6 +29,25 @@ export const iconPaths = {
   bolt: '<path d="M12.5 3 5 13.5h5.5L11 21l7.5-11H13l-.5-7Z"/>',
   droplet: '<path d="M12 3.5s6.5 7.2 6.5 11.5A6.5 6.5 0 0 1 5.5 15c0-4.3 6.5-11.5 6.5-11.5Z"/>',
   gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.3M12 18.2v2.3M20.5 12h-2.3M5.8 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2"/>',
+  /** Engrenagem com dentes (a `gear` é a versão em raios). */
+  cog: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  fan: '<path d="M10.827 16.379a6.082 6.082 0 0 1-8.618-7.002l5.412 1.45a6.082 6.082 0 0 1 7.002-8.618l-1.45 5.412a6.082 6.082 0 0 1 8.618 7.002l-5.412-1.45a6.082 6.082 0 0 1-7.002 8.618l1.45-5.412Z"/><path d="M12 12v.01"/>',
+  conveyor:
+    '<rect x="2.5" y="11.5" width="19" height="7" rx="3.5"/><circle cx="6.5" cy="15" r="1.2"/><circle cx="12" cy="15" r="1.2"/><circle cx="17.5" cy="15" r="1.2"/><path d="M5 11.5V8h4.5v3.5M13.5 11.5V6h5v5.5"/>',
+  filter:
+    '<rect x="6" y="3.5" width="12" height="17" rx="2.5"/><path d="M9.5 7.5v9M12 7.5v9M14.5 7.5v9"/>',
+  hexagon: '<path d="M12 2.8 20 7.4v9.2l-8 4.6-8-4.6V7.4Z"/><circle cx="12" cy="12" r="3"/>',
+  valve: '<path d="M2.5 11H7v6H2.5zM17 11h4.5v6H17zM7 12.5h10v3H7zM12 12.5v-5M8.5 7.5h7"/>',
+  wind: '<path d="M3 8h10a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 12h15a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3 16h8"/>',
+  waves:
+    '<path d="M3 7.5c1.5-1.2 3-1.2 4.5 0s3 1.2 4.5 0 3-1.2 4.5 0 3 1.2 4.5 0M3 12c1.5-1.2 3-1.2 4.5 0s3 1.2 4.5 0 3-1.2 4.5 0 3 1.2 4.5 0M3 16.5c1.5-1.2 3-1.2 4.5 0s3 1.2 4.5 0 3-1.2 4.5 0 3 1.2 4.5 0"/>',
+  coalescent:
+    '<circle cx="12" cy="12" r="8.5" stroke-dasharray="2.4 2.6"/><circle cx="12" cy="12" r="2.6"/>',
+  gauge:
+    '<circle cx="12" cy="12" r="8.5"/><path d="m12 12 3.8-3.8"/><circle cx="12" cy="12" r="1.2"/>',
+  'arrows-swap': '<path d="M4 8.5h15M15.5 5 19 8.5 15.5 12M20 15.5H5M8.5 12 5 15.5 8.5 19"/>',
+  headset:
+    '<path d="M4 14.5V12a8 8 0 0 1 16 0v2.5"/><rect x="3" y="13.5" width="4" height="6" rx="1.5"/><rect x="17" y="13.5" width="4" height="6" rx="1.5"/><path d="M19 19.5c0 1.2-1.6 2-4 2h-2.5"/>',
   move: '<path d="M3.5 12h17M6 8.5 3.5 12 6 15.5M18 8.5 20.5 12 18 15.5"/>',
   mountain: '<path d="m3.5 18.5 6-10 4 6.2 2-3 5 6.8Z"/><circle cx="16" cy="6.5" r="1.6"/>',
   grid: '<rect x="3.5" y="3.5" width="7" height="7" rx="0.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="0.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="0.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="0.6"/>',
@@ -62,7 +81,7 @@ export const iconPaths = {
   building:
     '<path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16"/><path d="M17 21v-8a1 1 0 0 1 1.5-.9l1.5.9v8"/><path d="M8 8h2"/><path d="M8 11h2"/><path d="M8 14h2"/>',
   factory:
-    '<path d="M3 21h18"/><path d="M4 21V9l6 3V9l6 3V5l4 2v14"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/><path d="M16 11h.01"/><path d="M12 15h.01"/><path d="M8 13h.01"/>',
+    '<path class="ic-accent" d="M3 21h18"/><path d="M4 21V9l6 3V9l6 3V5l4 2v14"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/><path d="M16 11h.01"/><path d="M12 15h.01"/><path d="M8 13h.01"/>',
   file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
   chip: '<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v3"/><path d="M15 2v3"/><path d="M9 19v3"/><path d="M15 19v3"/><path d="M2 9h3"/><path d="M2 15h3"/><path d="M19 9h3"/><path d="M19 15h3"/>',
   dots: '<path d="M5 12h.01"/><path d="M12 12h.01"/><path d="M19 12h.01"/>',
@@ -90,7 +109,7 @@ export const iconPaths = {
     '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.8-.9 1.4v.5"/><path d="M12 17h.01"/>',
   alert: '<path d="M12 4.3 21 19.7H3L12 4.3Z"/><path d="M12 10v3.8"/><path d="M12 16.8h.01"/>',
   'clipboard-check':
-    '<rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.4c0-.5.4-.9.9-.9h4.2c.5 0 .9.4.9.9v1.1"/><path d="m9.2 12.6 2 2 3.6-4"/>',
+    '<rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.4c0-.5.4-.9.9-.9h4.2c.5 0 .9.4.9.9v1.1"/><path class="ic-accent" d="m9.2 12.6 2 2 3.6-4"/>',
 } as const satisfies Record<string, string>
 
 export type IconName = keyof typeof iconPaths

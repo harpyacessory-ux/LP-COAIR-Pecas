@@ -8,25 +8,33 @@ import { Picture } from 'astro:assets'
 import Icon from './Icon.astro'
 import Button from './Button.astro'
 import Eyebrow from './Eyebrow.astro'
-import { hero, cta } from '../data/content'
+import { hero } from '../data/content'
 
 const isDev = import.meta.env.DEV
+
+// Divide o H1 para pintar o trecho de destaque sem duplicar o texto em content.ts
+const [titleBefore, ...titleRest] = hero.title.split(hero.highlight)
+const titleAfter = titleRest.join(hero.highlight)
+const hasHighlight = titleRest.length > 0
 ---
 
-<section class="relative overflow-hidden border-b border-white/15 bg-primary-dark-900" data-hero>
+<section
+  class="relative overflow-hidden rounded-b-3xl border-b border-white/15 bg-primary-dark-900 lg:rounded-b-[40px]"
+  data-hero
+>
   {/* z1 — banner ancorado à borda direita do container (desktop) */}
   <div class="hero-photo absolute inset-0 z-[1]">
     <Picture
       src={hero.banner.src}
       alt={hero.banner.alt}
-      widths={[640, 1024, 1536, 1981]}
+      widths={[640, 1024, 1536, 2135]}
       sizes="(min-width: 1024px) 1700px, 100vw"
       formats={['avif', 'webp']}
       fallbackFormat="webp"
       loading="eager"
       fetchpriority="high"
       decoding="async"
-      class="h-full w-full object-cover"
+      class="h-full w-full object-cover object-[72%_center] lg:object-left"
       pictureAttributes={{ class: 'block h-full w-full' }}
     />
   </div>
@@ -59,51 +67,66 @@ const isDev = import.meta.env.DEV
     <div class="hero-grid grid items-center gap-y-12 lg:gap-x-6">
       {/* Coluna 1 — textos */}
       <div class="max-w-xl lg:max-w-none">
-        <Eyebrow tone="light">{hero.eyebrow}</Eyebrow>
+        <Eyebrow tone="light" accent="green">
+          {hero.eyebrow}
+        </Eyebrow>
 
-        <h1 class="mt-2 font-display text-[2.75rem] leading-[1.1] font-extrabold text-neutral-light sm:text-[3rem] lg:text-[2.75rem] xl:text-[3.1rem]">
-          {hero.title}
+        <h1 class="mt-3 font-display text-[2.75rem] leading-[1.1] font-extrabold text-neutral-light sm:text-[3rem] lg:text-[2.75rem] xl:text-[3.1rem]">
+          {hasHighlight ? (
+            <>
+              {titleBefore}
+              <span class="text-brand-green">{hero.highlight}</span>
+              {titleAfter}
+            </>
+          ) : (
+            hero.title
+          )}
         </h1>
 
-        <p class="mt-5 font-sans text-lg leading-relaxed text-neutral-light/75 lg:text-base">
+        <p class="mt-5 font-sans text-lg leading-snug font-medium text-neutral-light/80 lg:max-w-[34rem] lg:text-xl">
           {hero.text}
         </p>
 
-        {/* Caixa de 3 pontos — texto sempre em duas linhas */}
-        <ul class="hero-points relative z-[3] mt-7 inline-flex max-w-full flex-wrap gap-x-5 gap-y-3 rounded-xl border border-white/10 bg-primary-dark-900/55 px-3.5 py-2.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md sm:gap-x-6 sm:px-4 lg:w-max lg:max-w-none lg:flex-nowrap lg:gap-x-6">
+        <div class="mt-8 flex flex-wrap items-center gap-x-9 gap-y-4">
+          <Button cta="hero-primary" variant="brand">
+            {hero.ctaPrimary}
+          </Button>
+          <Button cta="hero-secondary" variant="link-light" icon={false}>
+            {hero.ctaSecondary}
+          </Button>
+        </div>
+
+        {/* 3 destaques — texto sempre em duas linhas, separados por divisórias */}
+        <ul class="hero-points mt-10 flex flex-wrap gap-x-5 gap-y-4 sm:flex-nowrap">
           {hero.points.map((point) => (
-            <li class="hero-point flex items-center gap-2.5">
-              <span class="flex size-10 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-white/10 backdrop-blur-sm">
-                <Icon name={point.icon} class="size-[18px] text-neutral-light" />
-              </span>
-              <span class="font-sans text-[13.5px] leading-snug font-semibold text-neutral-light [text-shadow:0_1px_2px_rgba(0,0,0,0.45)]">
+            <li class="hero-point flex items-center gap-3">
+              <Icon name={point.icon} class="size-7 shrink-0 text-neutral-light" />
+              <span class="font-sans text-[13px] leading-snug font-medium text-neutral-light/85">
                 <span class="block whitespace-nowrap">{point.line1}</span>
                 <span class="block whitespace-nowrap">{point.line2}</span>
               </span>
             </li>
           ))}
         </ul>
-
-        <div class="mt-7 flex flex-wrap items-center gap-4">
-          <Button cta="hero-primary" variant="primary">
-            {cta.primary}
-          </Button>
-          <Button
-            cta="hero-secondary"
-            variant="outline-light"
-            iconName="search"
-            iconPosition="left"
-          >
-            {cta.secondary}
-          </Button>
-        </div>
       </div>
 
       {/* Coluna 2 — VAZIA de propósito: janela do banner */}
       <div class="hidden lg:block" aria-hidden="true"></div>
 
       {/* Coluna 3 — shortcode do chat (300px) */}
-      <div class="w-full lg:w-[300px]">
+      <div
+        class:list={[
+          'w-full lg:w-[300px]',
+          isDev &&
+            Astro.slots.has('shortcode') &&
+            'flex min-h-[430px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/40 bg-primary-dark-900/85 p-6 text-center font-mono text-xs text-white/70 backdrop-blur-sm',
+        ]}
+      >
+        {isDev && Astro.slots.has('shortcode') && (
+          <span class="font-sans text-[11px] font-semibold tracking-[0.18em] text-brand-green uppercase">
+            Formulário · 300px
+          </span>
+        )}
         <slot name="shortcode">
           {isDev ? (
             <div

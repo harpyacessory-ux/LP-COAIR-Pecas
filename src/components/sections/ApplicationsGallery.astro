@@ -1,9 +1,10 @@
 ---
 /**
- * Galeria de aplicações — fase "prova" da biblioteca B2.
+ * Galeria de aplicações — fase "prova" da biblioteca B2, no visual COAIR.
  *
- * Cabeçalho centrado e 4 cards-botão com foto 4:3. O card inteiro é o CTA, por
- * isso o `<button>` envolve a foto e o texto.
+ * Fundo industrial escuro em largura total, cabeçalho centrado e 4 cards-botão: a foto
+ * se dissolve no rodapé escuro do card, onde ficam o ícone verde, o título, o texto e a
+ * seta. O card inteiro é o CTA, por isso o `<button>` envolve a foto e o texto.
  */
 import { Image } from 'astro:assets'
 import Section from '@components/Section.astro'
@@ -17,67 +18,120 @@ type Props = SectionProps
 const { tone, rhythm } = Astro.props
 ---
 
-<Section id="aplicacoes" tone={tone} rhythm={rhythm}>
-  <SectionHeader
-    eyebrow={applications.eyebrow}
-    title={applications.title}
-    text={applications.text}
-    align="center"
-    width="4xl"
-  />
+<Section
+  id="aplicacoes"
+  tone={tone}
+  rhythm={rhythm}
+  container={false}
+  class="relative isolate overflow-hidden"
+>
+  <div
+    aria-hidden="true"
+    class="apps-bg pointer-events-none absolute inset-0 -z-10 rounded-3xl lg:rounded-[40px]"
+  ></div>
 
-  <ul class="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-    {applications.items.map((app, i) => (
-      <li>
-        <button
-          type="button"
-          data-cta={`aplicacoes-${app.id}`}
-          class="btn-slave-whats app-card group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-neutral-gray-200/70 bg-neutral-light text-left shadow-[0_1px_2px_rgba(13,29,48,0.05)] transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-accent-orange/50 hover:shadow-[0_28px_56px_-28px_rgba(0,33,71,0.35)]"
-        >
-          <span
-            aria-hidden="true"
-            class="absolute inset-x-0 top-0 z-10 h-[3px] origin-left scale-x-0 bg-accent-orange transition-transform duration-300 ease-out group-hover:scale-x-100"
-          />
+  {/* Mais largo que o contêiner padrão, como no layout de referência */}
+  <div class="mx-auto max-w-[1760px] px-6 pt-8 pb-4 lg:px-12 2xl:px-20">
+    <SectionHeader
+      eyebrow={applications.eyebrow}
+      title={applications.title}
+      text={applications.text}
+      align="center"
+      width="4xl"
+      tone="light"
+      accent="green"
+    />
 
-          <div class="relative aspect-[4/3] overflow-hidden bg-neutral-gray-100">
-            <Image
-              src={app.photo.src}
-              alt={app.photo.alt}
-              format="webp"
-              width={640}
-              loading="lazy"
-              decoding="async"
-              class="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.06]"
-            />
-            <span
-              aria-hidden="true"
-              class="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-primary-dark-900/55 to-transparent"
-            />
-            <span class="absolute bottom-3 left-4 z-[2] font-display text-[11px] font-extrabold tracking-[0.2em] text-neutral-light/85">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-          </div>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {applications.items.map((app) => (
+        <li>
+          <button
+            type="button"
+            data-cta={`aplicacoes-${app.id}`}
+            class="btn-slave-whats app-card group relative flex h-full w-full flex-col overflow-hidden rounded-[10px] text-left transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_28px_56px_-28px_rgba(0,0,0,0.9)]"
+          >
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <Image
+                src={app.photo.src}
+                alt={app.photo.alt}
+                format="webp"
+                width={640}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+              />
+              <span aria-hidden="true" class="app-fade pointer-events-none absolute inset-0" />
+            </div>
 
-          <div class="flex flex-1 items-start justify-between gap-3 px-5 pt-4 pb-5">
-            <span class="flex min-w-0 flex-col gap-1.5">
-              <span class="font-display text-lg leading-snug font-extrabold text-ink">
-                {app.label}
+            {/* Rodapé do card: sobe sobre a base da foto */}
+            <div class="relative -mt-6 flex flex-1 gap-4 pr-5 pb-6 pl-[22px]">
+              <span class="flex size-[52px] shrink-0 items-center justify-center rounded-md bg-brand-green text-neutral-light shadow-[0_10px_24px_-10px_rgb(63_220_90/0.7)]">
+                <Icon name={app.icon} class="size-[30px]" />
               </span>
-              <span class="font-sans text-[13px] leading-relaxed text-ink-soft">
-                {app.description}
+              <span class="flex min-w-0 flex-1 flex-col">
+                <span class="flex min-h-[52px] items-center font-display text-lg leading-tight font-extrabold text-neutral-light">
+                  {app.label}
+                </span>
+                <span class="mt-1 flex items-center justify-between gap-2">
+                  <span class="font-sans text-[13px] leading-relaxed text-[#b4c6d9]">
+                    {app.description}
+                  </span>
+                  <span class="flex size-[46px] shrink-0 items-center justify-center rounded-full border-[1.5px] border-[#b2c3dc]/75 text-neutral-light transition-[background-color,border-color,color,transform] duration-300 group-hover:translate-x-0.5 group-hover:border-brand-green group-hover:bg-brand-green group-hover:text-primary-dark-900">
+                    <Icon name="arrow-right" class="size-[18px]" />
+                  </span>
+                </span>
               </span>
-            </span>
-            <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-neutral-gray-100 text-primary-dark transition-[background-color,color,transform] duration-300 group-hover:translate-x-0.5 group-hover:bg-accent-orange group-hover:text-neutral-light">
-              <Icon name="arrow-right" class="size-3.5" />
-            </span>
-          </div>
-        </button>
-      </li>
-    ))}
-  </ul>
+            </div>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
 </Section>
 
 <style>
+  /* Fundo de galpão escuro: luzes do teto nos cantos, colunas sutis e reflexo do piso. */
+  .apps-bg {
+    background:
+      radial-gradient(34% 26% at 6% 0%, rgb(64 140 205 / 0.42), transparent 70%),
+      radial-gradient(30% 24% at 94% 2%, rgb(64 140 205 / 0.36), transparent 70%),
+      radial-gradient(60% 28% at 50% 100%, rgb(30 80 120 / 0.32), transparent 70%),
+      repeating-linear-gradient(90deg, transparent 0 136px, rgb(120 170 210 / 0.035) 136px 140px),
+      linear-gradient(to bottom, #062036, #00121f 40%, #00121f 75%, #021a2b);
+  }
+
+  /* Contorno azulado, mais claro no topo; verde no hover. */
+  .app-card {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#03121e, #03121e) padding-box,
+      linear-gradient(
+          to bottom,
+          rgb(120 196 236 / 0.7),
+          rgb(40 120 165 / 0.4) 55%,
+          rgb(20 90 130 / 0.55)
+        )
+        border-box;
+  }
+
+  .app-card:hover,
+  .app-card:focus-visible {
+    background:
+      linear-gradient(#03121e, #03121e) padding-box,
+      linear-gradient(to bottom, rgb(63 220 90 / 0.9), rgb(63 220 90 / 0.3)) border-box;
+  }
+
+  /* A foto escurece até a cor do rodapé do card. */
+  .app-fade {
+    background: linear-gradient(
+      to bottom,
+      transparent 45%,
+      rgb(3 18 30 / 0.55) 70%,
+      rgb(3 18 30 / 0.92) 90%,
+      #03121e 100%
+    );
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .app-card,
     .app-card * {
